@@ -1,3 +1,7 @@
+// Automatically downloads missing Android SDK components.
+// See https://github.com/JakeWharton/sdk-manager-plugin
+apply plugin: 'android-sdk-manager'
+
 apply plugin: 'com.android.application'
 
 android {

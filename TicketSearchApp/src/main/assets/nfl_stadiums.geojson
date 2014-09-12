@@ -1,0 +1,1158 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -112.18599999999998,
+          33.538600000000024
+        ],
+        "bbox": [
+          -112.18599999999998,
+          33.538600000000024,
+          -112.18599999999998,
+          33.538600000000024
+        ]
+      },
+      "properties": {
+        "TeamName": "Arizona Cardinals",
+        "City": "Glendale",
+        "State": "Arizona",
+        "Conference": "NFC",
+        "Division": "West",
+        "TeamProfile": "http://www.nfl.com/teams/arizonacardinals/profile?team=ARI",
+        "Latitude": 33.5386,
+        "Longitude": -112.186,
+        "marker-size": "medium",
+        "marker-symbol": "america-football",
+        "marker-color": "#ace"
+      },
+      "id": 0,
+      "bbox": [
+        -112.18599999999998,
+        33.538600000000024,
+        -112.18599999999998,
+        33.538600000000024
+      ]
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -84.39109999999994,
+          33.74830000000003
+        ],
+        "bbox": [
+          -84.39109999999994,
+          33.74830000000003,
+          -84.39109999999994,
+          33.74830000000003
+        ]
+      },
+      "properties": {
+        "TeamName": "Atlanta Falcons",
+        "City": "Atlanta",
+        "State": "Georgia",
+        "Conference": "NFC",
+        "Division": "South",
+        "TeamProfile": "http://www.nfl.com/teams/atlantafalcons/profile?team=ATL",
+        "Latitude": 33.7483,
+        "Longitude": -84.3911,
+        "marker-size": "medium",
+        "marker-symbol": "america-football",
+        "marker-color": "#ace"
+      },
+      "id": 1,
+      "bbox": [
+        -84.39109999999994,
+        33.74830000000003,
+        -84.39109999999994,
+        33.74830000000003
+      ]
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -76.60929999999996,
+          39.290600000000026
+        ],
+        "bbox": [
+          -76.60929999999996,
+          39.290600000000026,
+          -76.60929999999996,
+          39.290600000000026
+        ]
+      },
+      "properties": {
+        "TeamName": "Baltimore Ravens",
+        "City": "Baltimore",
+        "State": "Maryland",
+        "Conference": "AFC",
+        "Division": "North",
+        "TeamProfile": "http://www.nfl.com/teams/baltimoreravens/profile?team=BAL",
+        "Latitude": 39.2906,
+        "Longitude": -76.6093,
+        "marker-size": "medium",
+        "marker-symbol": "america-football",
+        "marker-color": "#ace"
+      },
+      "id": 2,
+      "bbox": [
+        -76.60929999999996,
+        39.290600000000026,
+        -76.60929999999996,
+        39.290600000000026
+      ]
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.87849999999997,
+          42.88540000000006
+        ],
+        "bbox": [
+          -78.87849999999997,
+          42.88540000000006,
+          -78.87849999999997,
+          42.88540000000006
+        ]
+      },
+      "properties": {
+        "TeamName": "Buffalo Bills",
+        "City": "Buffalo",
+        "State": "New York",
+        "Conference": "AFC",
+        "Division": "East",
+        "TeamProfile": "http://www.nfl.com/teams/buffalobills/profile?team=BUF",
+        "Latitude": 42.8854,
+        "Longitude": -78.8785,
+        "marker-size": "medium",
+        "marker-symbol": "america-football",
+        "marker-color": "#ace"
+      },
+      "id": 3,
+      "bbox": [
+        -78.87849999999997,
+        42.88540000000006,
+        -78.87849999999997,
+        42.88540000000006
+      ]
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -80.83779999999996,
+          35.22270000000003
+        ],
+        "bbox": [
+          -80.83779999999996,
+          35.22270000000003,
+          -80.83779999999996,
+          35.22270000000003
+        ]
+      },
+      "properties": {
+        "TeamName": "Carolina Panthers",
+        "City": "Charlotte",
+        "State": "North Carolina",
+        "Conference": "NFC",
+        "Division": "South",
+        "TeamProfile": "http://www.nfl.com/teams/carolinapanthers/profile?team=CAR",
+        "Latitude": 35.2227,
+        "Longitude": -80.8378,
+        "marker-size": "medium",
+        "marker-symbol": "america-football",
+        "marker-color": "#ace"
+      },
+      "id": 4,
+      "bbox": [
+        -80.83779999999996,
+        35.22270000000003,
+        -80.83779999999996,
+        35.22270000000003
+      ]
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.63239999999996,
+          41.88420000000007
+        ],
+        "bbox": [
+          -87.63239999999996,
+          41.88420000000007,
+          -87.63239999999996,
+          41.88420000000007
+        ]
+      },
+      "properties": {
+        "TeamName": "Chicago Bears",
+        "City": "Chicago",
+        "State": "Illinois",
+        "Conference": "NFC",
+        "Division": "North",
+        "TeamProfile": "http://www.nfl.com/teams/chicagobears/profile?team=CHI",
+        "Latitude": 41.8842,
+        "Longitude": -87.6324,
+        "marker-size": "medium",
+        "marker-symbol": "america-football",
+        "marker-color": "#ace"
+      },
+      "id": 5,
+      "bbox": [
+        -87.63239999999996,
+        41.88420000000007,
+        -87.63239999999996,
+        41.88420000000007
+      ]
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -84.50409999999995,
+          39.10710000000006
+        ],
+        "bbox": [
+          -84.50409999999995,
+          39.10710000000006,
+          -84.50409999999995,
+          39.10710000000006
+        ]
+      },
+      "properties": {
+        "TeamName": "Cincinnati Bengals",
+        "City": "Cincinnati",
+        "State": "Ohio",
+        "Conference": "AFC",
+        "Division": "North",
+        "TeamProfile": "http://www.nfl.com/teams/cincinnatibengals/profile?team=CIN",
+        "Latitude": 39.1071,
+        "Longitude": -84.5041,
+        "marker-size": "medium",
+        "marker-symbol": "america-football",
+        "marker-color": "#ace"
+      },
+      "id": 6,
+      "bbox": [
+        -84.50409999999995,
+        39.10710000000006,
+        -84.50409999999995,
+        39.10710000000006
+      ]
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.69069999999994,
+          41.50470000000007
+        ],
+        "bbox": [
+          -81.69069999999994,
+          41.50470000000007,
+          -81.69069999999994,
+          41.50470000000007
+        ]
+      },
+      "properties": {
+        "TeamName": "Cleveland Browns",
+        "City": "Cleveland",
+        "State": "Ohio",
+        "Conference": "AFC",
+        "Division": "North",
+        "TeamProfile": "http://www.nfl.com/teams/clevelandbrowns/profile?team=CLE",
+        "Latitude": 41.5047,
+        "Longitude": -81.6907,
+        "marker-size": "medium",
+        "marker-symbol": "america-football",
+        "marker-color": "#ace"
+      },
+      "id": 7,
+      "bbox": [
+        -81.69069999999994,
+        41.50470000000007,
+        -81.69069999999994,
+        41.50470000000007
+      ]
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -96.79539999999997,
+          32.77810000000006
+        ],
+        "bbox": [
+          -96.79539999999997,
+          32.77810000000006,
+          -96.79539999999997,
+          32.77810000000006
+        ]
+      },
+      "properties": {
+        "TeamName": "Dallas Cowboys",
+        "City": "Dallas",
+        "State": "Texas",
+        "Conference": "NFC",
+        "Division": "East",
+        "TeamProfile": "http://www.nfl.com/teams/dallascowboys/profile?team=DAL",
+        "Latitude": 32.7781,
+        "Longitude": -96.7954,
+        "marker-size": "medium",
+        "marker-symbol": "america-football",
+        "marker-color": "#ace"
+      },
+      "id": 8,
+      "bbox": [
+        -96.79539999999997,
+        32.77810000000006,
+        -96.79539999999997,
+        32.77810000000006
+      ]
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.99199999999996,
+          39.74000000000006
+        ],
+        "bbox": [
+          -104.99199999999996,
+          39.74000000000006,
+          -104.99199999999996,
+          39.74000000000006
+        ]
+      },
+      "properties": {
+        "TeamName": "Denver Broncos",
+        "City": "Denver",
+        "State": "Colorado",
+        "Conference": "AFC",
+        "Division": "West",
+        "TeamProfile": "http://www.nfl.com/teams/denverbroncos/profile?team=DEN",
+        "Latitude": 39.74,
+        "Longitude": -104.992,
+        "marker-size": "medium",
+        "marker-symbol": "america-football",
+        "marker-color": "#ace"
+      },
+      "id": 9,
+      "bbox": [
+        -104.99199999999996,
+        39.74000000000006,
+        -104.99199999999996,
+        39.74000000000006
+      ]
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -83.04789999999997,
+          42.33170000000006
+        ],
+        "bbox": [
+          -83.04789999999997,
+          42.33170000000006,
+          -83.04789999999997,
+          42.33170000000006
+        ]
+      },
+      "properties": {
+        "TeamName": "Detriot Lions",
+        "City": "Detroit",
+        "State": "Michigan",
+        "Conference": "NFC",
+        "Division": "North",
+        "TeamProfile": "http://www.nfl.com/teams/detroitlions/profile?team=DET",
+        "Latitude": 42.3317,
+        "Longitude": -83.0479,
+        "marker-size": "medium",
+        "marker-symbol": "america-football",
+        "marker-color": "#ace"
+      },
+      "id": 10,
+      "bbox": [
+        -83.04789999999997,
+        42.33170000000006,
+        -83.04789999999997,
+        42.33170000000006
+      ]
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.01019999999993,
+          44.51280000000003
+        ],
+        "bbox": [
+          -88.01019999999993,
+          44.51280000000003,
+          -88.01019999999993,
+          44.51280000000003
+        ]
+      },
+      "properties": {
+        "TeamName": "Green Bay Packers",
+        "City": "Green Bay",
+        "State": "Wisconsin",
+        "Conference": "NFC",
+        "Division": "North",
+        "TeamProfile": "http://www.nfl.com/teams/greenbaypackers/profile?team=GB",
+        "Latitude": 44.5128,
+        "Longitude": -88.0102,
+        "marker-size": "medium",
+        "marker-symbol": "america-football",
+        "marker-color": "#ace"
+      },
+      "id": 11,
+      "bbox": [
+        -88.01019999999993,
+        44.51280000000003,
+        -88.01019999999993,
+        44.51280000000003
+      ]
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -95.36979999999994,
+          29.76050000000001
+        ],
+        "bbox": [
+          -95.36979999999994,
+          29.76050000000001,
+          -95.36979999999994,
+          29.76050000000001
+        ]
+      },
+      "properties": {
+        "TeamName": "Houston Texans",
+        "City": "Houston",
+        "State": "Texas",
+        "Conference": "AFC",
+        "Division": "South",
+        "TeamProfile": "http://www.nfl.com/teams/houstontexans/profile?team=HOU",
+        "Latitude": 29.7605,
+        "Longitude": -95.3698,
+        "marker-size": "medium",
+        "marker-symbol": "america-football",
+        "marker-color": "#ace"
+      },
+      "id": 12,
+      "bbox": [
+        -95.36979999999994,
+        29.76050000000001,
+        -95.36979999999994,
+        29.76050000000001
+      ]
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.14999999999998,
+          39.76690000000008
+        ],
+        "bbox": [
+          -86.14999999999998,
+          39.76690000000008,
+          -86.14999999999998,
+          39.76690000000008
+        ]
+      },
+      "properties": {
+        "TeamName": "Indianapolis Colts",
+        "City": "Indianapolis",
+        "State": "Indiana",
+        "Conference": "AFC",
+        "Division": "South",
+        "TeamProfile": "http://www.nfl.com/teams/indianapoliscolts/profile?team=IND",
+        "Latitude": 39.7669,
+        "Longitude": -86.15,
+        "marker-size": "medium",
+        "marker-symbol": "america-football",
+        "marker-color": "#ace"
+      },
+      "id": 13,
+      "bbox": [
+        -86.14999999999998,
+        39.76690000000008,
+        -86.14999999999998,
+        39.76690000000008
+      ]
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.65619999999996,
+          30.331500000000073
+        ],
+        "bbox": [
+          -81.65619999999996,
+          30.331500000000073,
+          -81.65619999999996,
+          30.331500000000073
+        ]
+      },
+      "properties": {
+        "TeamName": "Jacksonville Jaguars",
+        "City": "Jacksonville",
+        "State": "Florida",
+        "Conference": "AFC",
+        "Division": "South",
+        "TeamProfile": "http://www.nfl.com/teams/jacksonvillejaguars/profile?team=JAC",
+        "Latitude": 30.3315,
+        "Longitude": -81.6562,
+        "marker-size": "medium",
+        "marker-symbol": "america-football",
+        "marker-color": "#ace"
+      },
+      "id": 14,
+      "bbox": [
+        -81.65619999999996,
+        30.331500000000073,
+        -81.65619999999996,
+        30.331500000000073
+      ]
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -94.58309999999994,
+          39.10300000000006
+        ],
+        "bbox": [
+          -94.58309999999994,
+          39.10300000000006,
+          -94.58309999999994,
+          39.10300000000006
+        ]
+      },
+      "properties": {
+        "TeamName": "Kansas City Chiefs",
+        "City": "Kansas City",
+        "State": "Missouri",
+        "Conference": "AFC",
+        "Division": "West",
+        "TeamProfile": "http://www.nfl.com/teams/kansascitychiefs/profile?team=KC",
+        "Latitude": 39.103,
+        "Longitude": -94.5831,
+        "marker-size": "medium",
+        "marker-symbol": "america-football",
+        "marker-color": "#ace"
+      },
+      "id": 15,
+      "bbox": [
+        -94.58309999999994,
+        39.10300000000006,
+        -94.58309999999994,
+        39.10300000000006
+      ]
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -80.23739999999998,
+          25.729000000000042
+        ],
+        "bbox": [
+          -80.23739999999998,
+          25.729000000000042,
+          -80.23739999999998,
+          25.729000000000042
+        ]
+      },
+      "properties": {
+        "TeamName": "Miami Dolphins",
+        "City": "Miami",
+        "State": "Florida",
+        "Conference": "AFC",
+        "Division": "East",
+        "TeamProfile": "http://www.nfl.com/teams/miamidolphins/profile?team=MIA",
+        "Latitude": 25.729,
+        "Longitude": -80.2374,
+        "marker-size": "medium",
+        "marker-symbol": "america-football",
+        "marker-color": "#ace"
+      },
+      "id": 16,
+      "bbox": [
+        -80.23739999999998,
+        25.729000000000042,
+        -80.23739999999998,
+        25.729000000000042
+      ]
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -93.26489999999997,
+          44.97900000000003
+        ],
+        "bbox": [
+          -93.26489999999997,
+          44.97900000000003,
+          -93.26489999999997,
+          44.97900000000003
+        ]
+      },
+      "properties": {
+        "TeamName": "Minnesota Vikings",
+        "City": "Minneapolis",
+        "State": "Minnesota",
+        "Conference": "NFC",
+        "Division": "North",
+        "TeamProfile": "http://www.nfl.com/teams/minnesotavikings/profile?team=MIN",
+        "Latitude": 44.979,
+        "Longitude": -93.2649,
+        "marker-size": "medium",
+        "marker-symbol": "america-football",
+        "marker-color": "#ace"
+      },
+      "id": 17,
+      "bbox": [
+        -93.26489999999997,
+        44.97900000000003,
+        -93.26489999999997,
+        44.97900000000003
+      ]
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -71.24759999999998,
+          42.06510000000003
+        ],
+        "bbox": [
+          -71.24759999999998,
+          42.06510000000003,
+          -71.24759999999998,
+          42.06510000000003
+        ]
+      },
+      "properties": {
+        "TeamName": "New England Patriots",
+        "City": "BOSTON",
+        "State": "MA",
+        "Conference": "AFC",
+        "Division": "East",
+        "TeamProfile": "http://www.nfl.com/teams/newenglandpatriots/profile?team=NE",
+        "Latitude": 42.0651,
+        "Longitude": -71.2476,
+        "marker-size": "medium",
+        "marker-symbol": "america-football",
+        "marker-color": "#ace"
+      },
+      "id": 18,
+      "bbox": [
+        -71.24759999999998,
+        42.06510000000003,
+        -71.24759999999998,
+        42.06510000000003
+      ]
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -90.07779999999998,
+          29.95370000000002
+        ],
+        "bbox": [
+          -90.07779999999998,
+          29.95370000000002,
+          -90.07779999999998,
+          29.95370000000002
+        ]
+      },
+      "properties": {
+        "TeamName": "New Orleans Saints",
+        "City": "New Orleans",
+        "State": "Louisiana",
+        "Conference": "NFC",
+        "Division": "South",
+        "TeamProfile": "http://www.nfl.com/teams/neworleanssaints/profile?team=NO",
+        "Latitude": 29.9537,
+        "Longitude": -90.0778,
+        "marker-size": "medium",
+        "marker-symbol": "america-football",
+        "marker-color": "#ace"
+      },
+      "id": 19,
+      "bbox": [
+        -90.07779999999998,
+        29.95370000000002,
+        -90.07779999999998,
+        29.95370000000002
+      ]
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.0819205078124,
+          40.8272263630477
+        ],
+        "bbox": [
+          -74.0819205078124,
+          40.8272263630477,
+          -74.0819205078124,
+          40.8272263630477
+        ]
+      },
+      "properties": {
+        "TeamName": "New York Giants",
+        "City": "East Rutherford",
+        "State": "New Jersey",
+        "Conference": "NFC",
+        "Division": "East",
+        "TeamProfile": "http://www.nfl.com/teams/newyorkgiants/profile?team=NYG",
+        "Latitude": 40.8345,
+        "Longitude": -74.0984,
+        "marker-size": "medium",
+        "marker-symbol": "america-football",
+        "marker-color": "#ace"
+      },
+      "id": 20,
+      "bbox": [
+        -74.0819205078124,
+        40.8272263630477,
+        -74.0819205078124,
+        40.8272263630477
+      ]
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.10938632812496,
+          40.822030419573416
+        ],
+        "bbox": [
+          -74.10938632812496,
+          40.822030419573416,
+          -74.10938632812496,
+          40.822030419573416
+        ]
+      },
+      "properties": {
+        "TeamName": "New York Jets",
+        "City": "East Rutherford",
+        "State": "New Jersey",
+        "Conference": "AFC",
+        "Division": "East",
+        "TeamProfile": "http://www.nfl.com/teams/newyorkjets/profile?team=NYJ",
+        "Latitude": 40.8345,
+        "Longitude": -74.0984,
+        "marker-size": "medium",
+        "marker-symbol": "america-football",
+        "marker-color": "#ace"
+      },
+      "id": 21,
+      "bbox": [
+        -74.10938632812496,
+        40.822030419573416,
+        -74.10938632812496,
+        40.822030419573416
+      ]
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.27299999999998,
+          37.80510000000004
+        ],
+        "bbox": [
+          -122.27299999999998,
+          37.80510000000004,
+          -122.27299999999998,
+          37.80510000000004
+        ]
+      },
+      "properties": {
+        "TeamName": "Oakland Raiders",
+        "City": "Oakland",
+        "State": "California",
+        "Conference": "AFC",
+        "Division": "West",
+        "TeamProfile": "http://www.nfl.com/teams/oaklandraiders/profile?team=OAK",
+        "Latitude": 37.8051,
+        "Longitude": -122.273,
+        "marker-size": "medium",
+        "marker-symbol": "america-football",
+        "marker-color": "#ace"
+      },
+      "id": 22,
+      "bbox": [
+        -122.27299999999998,
+        37.80510000000004,
+        -122.27299999999998,
+        37.80510000000004
+      ]
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -75.16249999999997,
+          39.95230000000004
+        ],
+        "bbox": [
+          -75.16249999999997,
+          39.95230000000004,
+          -75.16249999999997,
+          39.95230000000004
+        ]
+      },
+      "properties": {
+        "TeamName": "Philadelphia Eagles",
+        "City": "Philadelphia",
+        "State": "Pennsylvania",
+        "Conference": "NFC",
+        "Division": "East",
+        "TeamProfile": "http://www.nfl.com/teams/philadelphiaeagles/profile?team=PHI",
+        "Latitude": 39.9523,
+        "Longitude": -75.1625,
+        "marker-size": "medium",
+        "marker-symbol": "america-football",
+        "marker-color": "#ace"
+      },
+      "id": 23,
+      "bbox": [
+        -75.16249999999997,
+        39.95230000000004,
+        -75.16249999999997,
+        39.95230000000004
+      ]
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -79.99749999999995,
+          40.43830000000002
+        ],
+        "bbox": [
+          -79.99749999999995,
+          40.43830000000002,
+          -79.99749999999995,
+          40.43830000000002
+        ]
+      },
+      "properties": {
+        "TeamName": "Pittsburgh Steelers",
+        "City": "Pittsburgh",
+        "State": "Pennsylvania",
+        "Conference": "AFC",
+        "Division": "North",
+        "TeamProfile": "http://www.nfl.com/teams/pittsburghsteelers/profile?team=PIT",
+        "Latitude": 40.4383,
+        "Longitude": -79.9975,
+        "marker-size": "medium",
+        "marker-symbol": "america-football",
+        "marker-color": "#ace"
+      },
+      "id": 24,
+      "bbox": [
+        -79.99749999999995,
+        40.43830000000002,
+        -79.99749999999995,
+        40.43830000000002
+      ]
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -117.16199999999998,
+          32.71570000000002
+        ],
+        "bbox": [
+          -117.16199999999998,
+          32.71570000000002,
+          -117.16199999999998,
+          32.71570000000002
+        ]
+      },
+      "properties": {
+        "TeamName": "San Diego Chargers",
+        "City": "San Diego",
+        "State": "California",
+        "Conference": "AFC",
+        "Division": "West",
+        "TeamProfile": "http://www.nfl.com/teams/sandiegochargers/profile?team=SD",
+        "Latitude": 32.7157,
+        "Longitude": -117.162,
+        "marker-size": "medium",
+        "marker-symbol": "america-football",
+        "marker-color": "#ace"
+      },
+      "id": 25,
+      "bbox": [
+        -117.16199999999998,
+        32.71570000000002,
+        -117.16199999999998,
+        32.71570000000002
+      ]
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.41999999999996,
+          37.77710000000007
+        ],
+        "bbox": [
+          -122.41999999999996,
+          37.77710000000007,
+          -122.41999999999996,
+          37.77710000000007
+        ]
+      },
+      "properties": {
+        "TeamName": "San Francisco 49ers",
+        "City": "San Francisco",
+        "State": "California",
+        "Conference": "NFC",
+        "Division": "West",
+        "TeamProfile": "http://www.nfl.com/teams/sanfrancisco49ers/profile?team=SF",
+        "Latitude": 37.7771,
+        "Longitude": -122.42,
+        "marker-size": "medium",
+        "marker-symbol": "america-football",
+        "marker-color": "#ace"
+      },
+      "id": 26,
+      "bbox": [
+        -122.41999999999996,
+        37.77710000000007,
+        -122.41999999999996,
+        37.77710000000007
+      ]
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.20499999999998,
+          47.47560000000004
+        ],
+        "bbox": [
+          -122.20499999999998,
+          47.47560000000004,
+          -122.20499999999998,
+          47.47560000000004
+        ]
+      },
+      "properties": {
+        "TeamName": "Seattle Seahawks",
+        "City": "Renton",
+        "State": "Washington",
+        "Conference": "NFC",
+        "Division": "West",
+        "TeamProfile": "http://www.nfl.com/teams/seattleseahawks/profile?team=SEA",
+        "Latitude": 47.4756,
+        "Longitude": -122.205,
+        "marker-size": "medium",
+        "marker-symbol": "america-football",
+        "marker-color": "#ace"
+      },
+      "id": 27,
+      "bbox": [
+        -122.20499999999998,
+        47.47560000000004,
+        -122.20499999999998,
+        47.47560000000004
+      ]
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -90.19949999999996,
+          38.62770000000005
+        ],
+        "bbox": [
+          -90.19949999999996,
+          38.62770000000005,
+          -90.19949999999996,
+          38.62770000000005
+        ]
+      },
+      "properties": {
+        "TeamName": "St. Louis Rams",
+        "City": "St. Louis",
+        "State": "Missouri",
+        "Conference": "NFC",
+        "Division": "West",
+        "TeamProfile": "http://www.nfl.com/teams/st.louisrams/profile?team=STL",
+        "Latitude": 38.6277,
+        "Longitude": -90.1995,
+        "marker-size": "medium",
+        "marker-symbol": "america-football",
+        "marker-color": "#ace"
+      },
+      "id": 28,
+      "bbox": [
+        -90.19949999999996,
+        38.62770000000005,
+        -90.19949999999996,
+        38.62770000000005
+      ]
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -82.45929999999998,
+          27.946500000000057
+        ],
+        "bbox": [
+          -82.45929999999998,
+          27.946500000000057,
+          -82.45929999999998,
+          27.946500000000057
+        ]
+      },
+      "properties": {
+        "TeamName": "Tampa Bay Buccaneers",
+        "City": "TAMPA",
+        "State": "FL",
+        "Conference": "NFC",
+        "Division": "South",
+        "TeamProfile": "http://www.nfl.com/teams/tampabaybuccaneers/profile?team=TB",
+        "Latitude": 27.9465,
+        "Longitude": -82.4593,
+        "marker-size": "medium",
+        "marker-symbol": "america-football",
+        "marker-color": "#ace"
+      },
+      "id": 29,
+      "bbox": [
+        -82.45929999999998,
+        27.946500000000057,
+        -82.45929999999998,
+        27.946500000000057
+      ]
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.77819999999997,
+          36.167800000000035
+        ],
+        "bbox": [
+          -86.77819999999997,
+          36.167800000000035,
+          -86.77819999999997,
+          36.167800000000035
+        ]
+      },
+      "properties": {
+        "TeamName": "Tennessee Titans",
+        "City": "Nashville",
+        "State": "Tennessee",
+        "Conference": "AFC",
+        "Division": "South",
+        "TeamProfile": "http://www.nfl.com/teams/tennesseetitans/profile?team=TEN",
+        "Latitude": 36.1678,
+        "Longitude": -86.7782,
+        "marker-size": "medium",
+        "marker-symbol": "america-football",
+        "marker-color": "#ace"
+      },
+      "id": 30,
+      "bbox": [
+        -86.77819999999997,
+        36.167800000000035,
+        -86.77819999999997,
+        36.167800000000035
+      ]
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -76.89689999999996,
+          38.93330000000004
+        ],
+        "bbox": [
+          -76.89689999999996,
+          38.93330000000004,
+          -76.89689999999996,
+          38.93330000000004
+        ]
+      },
+      "properties": {
+        "ARC_State": "Maryland",
+        "TeamName": "Washington Redskins",
+        "City": "College Park",
+        "State": "MD",
+        "Conference": "NFC",
+        "Division": "East",
+        "TeamProfile": "http://www.nfl.com/teams/washingtonredskins/profile?team=WAS",
+        "Latitude": 38.9333,
+        "Longitude": -76.8969,
+        "marker-size": "medium",
+        "marker-symbol": "america-football",
+        "marker-color": "#ace"
+      },
+      "id": 31,
+      "bbox": [
+        -76.89689999999996,
+        38.93330000000004,
+        -76.89689999999996,
+        38.93330000000004
+      ]
+    }
+  ]
+}
