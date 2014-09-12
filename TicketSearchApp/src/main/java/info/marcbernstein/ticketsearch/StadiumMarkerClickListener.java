@@ -19,7 +19,7 @@ public class StadiumMarkerClickListener implements OnMarkerClickListener {
   @Override
   public boolean onMarkerClick(Marker marker) {
     // TODO implement
-    Toast.makeText(mContext, "onMarkerClick", Toast.LENGTH_SHORT).show();
+    Toast.makeText(mContext, marker.getTitle(), Toast.LENGTH_SHORT).show();
     return true;
   }
 }

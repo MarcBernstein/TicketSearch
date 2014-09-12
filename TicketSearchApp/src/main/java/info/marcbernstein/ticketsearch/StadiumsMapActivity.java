@@ -1,12 +1,19 @@
 package info.marcbernstein.ticketsearch;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import info.marcbernstein.ticketsearch.util.FileUtils;
 
@@ -68,5 +75,21 @@ public class StadiumsMapActivity extends FragmentActivity {
     mMap.setOnMarkerClickListener(new StadiumMarkerClickListener(this));
 
     String geojson = FileUtils.getAssetAsString(this, "nfl_stadiums.geojson");
+    JsonObject json = new JsonParser().parse(geojson).getAsJsonObject();
+    JsonArray featuresArray = json.getAsJsonArray("features");
+    for (JsonElement jsonElement : featuresArray) {
+      JsonObject jsonObject = jsonElement.getAsJsonObject();
+      JsonArray coords = jsonObject.getAsJsonObject("geometry").getAsJsonArray("coordinates");
+      double lat = coords.get(1).getAsDouble();
+      double lng = coords.get(0).getAsDouble();
+      String title = jsonObject.getAsJsonObject("properties").get("TeamName").getAsString();
+      JsonElement symbolData = jsonObject.get("imageData");
+      MarkerOptions options = new MarkerOptions().position(new LatLng(lat, lng)).title(title);
+      if (symbolData != null) {
+        Bitmap symbol = FileUtils.bitmapFromBase64(symbolData.getAsString(), true);
+        options.icon(BitmapDescriptorFactory.fromBitmap(symbol));
+      }
+      mMap.addMarker(options);
+    }
   }
 }
