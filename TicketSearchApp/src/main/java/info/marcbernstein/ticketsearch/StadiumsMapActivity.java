@@ -1,32 +1,51 @@
 package info.marcbernstein.ticketsearch;
 
-import android.graphics.Bitmap;
+import android.app.DialogFragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.google.common.base.Preconditions;
 
+import info.marcbernstein.ticketsearch.geojson.Feature;
+import info.marcbernstein.ticketsearch.geojson.FeatureCollection;
 import info.marcbernstein.ticketsearch.util.FileUtils;
+import info.marcbernstein.ticketsearch.utils.UiUtils;
 
-public class StadiumsMapActivity extends FragmentActivity {
+public class StadiumsMapActivity extends FragmentActivity
+    implements GoogleMap.OnMarkerClickListener, TeamFragment.OnFragmentInteractionListener {
 
   private static final String TAG = StadiumsMapActivity.class.getSimpleName();
+  public static final String GEOJSON_ASSET_FILENAME = "nfl_stadiums.geojson";
 
   private GoogleMap mMap; // Might be null if Google Play services APK is not available.
+  private FeatureCollection mFeatureCollection;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_stadiums_map);
+
+    String geojson = FileUtils.getAssetAsString(this, GEOJSON_ASSET_FILENAME);
+    Preconditions.checkNotNull(geojson, "GeoJSON is null, cannot add stadium markers.");
+
+    mFeatureCollection = FeatureCollection.fromJson(geojson);
+    Preconditions.checkNotNull(mFeatureCollection, "Error parsing the GeoJSON, cannot add stadium markers.");
+
     setUpMapIfNeeded();
   }
 
@@ -34,6 +53,37 @@ public class StadiumsMapActivity extends FragmentActivity {
   protected void onResume() {
     super.onResume();
     setUpMapIfNeeded();
+  }
+
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    if (!UiUtils.isMultiPanel(this)) {
+      MenuInflater inflater = getMenuInflater();
+      inflater.inflate(R.menu.menu_stadiums_map, menu);
+    }
+    return true;
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()) {
+      case R.id.menu_show_teams:
+        showTeamsFragment();
+        return true;
+      default:
+        return super.onOptionsItemSelected(item);
+    }
+  }
+
+  private void showTeamsFragment() {
+    if (!UiUtils.isMultiPanel(this)) {
+      DialogFragment newFragment = TeamFragment.newInstance(mFeatureCollection);
+      newFragment.show(getFragmentManager(), TeamFragment.TAG);
+    }
+
+    //    Fragment teamFragment = TeamFragment.newInstance();
+    //    getFragmentManager().beginTransaction().add(R.id.side_panel, teamFragment, TeamFragment.TAG)
+    //                        .addToBackStack(TeamFragment.TAG).commit();
   }
 
   /**
@@ -54,8 +104,8 @@ public class StadiumsMapActivity extends FragmentActivity {
   private void setUpMapIfNeeded() {
     // Do a null check to confirm that we have not already instantiated the map.
     if (mMap == null) {
-      // Try to obtain the map from the SupportMapFragment.
-      mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+      // Try to obtain the map from the MapFragment.
+      mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.fragment_map)).getMap();
       // Check if we were successful in obtaining the map.
       if (mMap != null) {
         setUpMap();
@@ -67,29 +117,32 @@ public class StadiumsMapActivity extends FragmentActivity {
    * This should only be called once and when we are sure that {@link #mMap} is not null.
    */
   private void setUpMap() {
+    mMap.getUiSettings().setZoomControlsEnabled(false);
     mMap.setMyLocationEnabled(true);
+    mMap.setOnMarkerClickListener(this);
     setupStadiumMarkers();
   }
 
   private void setupStadiumMarkers() {
-    mMap.setOnMarkerClickListener(new StadiumMarkerClickListener(this));
-
-    String geojson = FileUtils.getAssetAsString(this, "nfl_stadiums.geojson");
-    JsonObject json = new JsonParser().parse(geojson).getAsJsonObject();
-    JsonArray featuresArray = json.getAsJsonArray("features");
-    for (JsonElement jsonElement : featuresArray) {
-      JsonObject jsonObject = jsonElement.getAsJsonObject();
-      JsonArray coords = jsonObject.getAsJsonObject("geometry").getAsJsonArray("coordinates");
-      double lat = coords.get(1).getAsDouble();
-      double lng = coords.get(0).getAsDouble();
-      String title = jsonObject.getAsJsonObject("properties").get("TeamName").getAsString();
-      JsonElement symbolData = jsonObject.get("imageData");
-      MarkerOptions options = new MarkerOptions().position(new LatLng(lat, lng)).title(title);
-      if (symbolData != null) {
-        Bitmap symbol = FileUtils.bitmapFromBase64(symbolData.getAsString(), true);
-        options.icon(BitmapDescriptorFactory.fromBitmap(symbol));
-      }
-      mMap.addMarker(options);
+    BitmapDescriptor symbol = BitmapDescriptorFactory.fromResource(R.drawable.football_marker);
+    LatLng location;
+    String title;
+    for (Feature feature : mFeatureCollection.getFeatures()) {
+      location = new LatLng(feature.getGeometry().getLatitude(), feature.getGeometry().getLongitude());
+      title = feature.getTitle();
+      mMap.addMarker(new MarkerOptions().position(location).title(title).icon(symbol));
     }
+  }
+
+  @Override
+  public boolean onMarkerClick(Marker marker) {
+    // TODO implement
+    Toast.makeText(this, marker.getTitle(), Toast.LENGTH_SHORT).show();
+    return false;
+  }
+
+  @Override
+  public void onFragmentInteraction(String id) {
+    Log.d(TAG, "[onFragmentInteraction] " + id);
   }
 }
