@@ -33,14 +33,4 @@ public final class FileUtils {
 
     return result;
   }
-
-  public static Bitmap bitmapFromBase64(String base64, boolean scaleUp) {
-    byte[] imageAsBytes = Base64.decode(base64.getBytes(), Base64.DEFAULT);
-    Bitmap bitmap = BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.length);
-    if (scaleUp) {
-      bitmap = Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth()*1.5), (int) (bitmap.getHeight()*1.5), true);
-    }
-
-    return bitmap;
-  }
 }
