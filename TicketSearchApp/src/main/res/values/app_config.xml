@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Can set this up so we pull a different value based on the build type or flavor by including an app_config.xml
+    in the src/<product flavor>/res/values dir-->
+
+    <!-- Normally I'd keep this somewhere secret, like an secrets.xml that doesn't get checked in to a VCS.
+     Embedding here for now so it can be built after cloning with no additional steps. -->
+    <string name="stubhub_api_token">ggmgN2D2lglFKwkYwCRZM7CSSHca</string>
+
+    <string name="stubhub_api_url">http://www.stubhub.com</string>
+</resources>
