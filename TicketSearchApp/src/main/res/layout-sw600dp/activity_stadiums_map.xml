@@ -5,12 +5,10 @@
               android:layout_height="match_parent"
               android:orientation="horizontal">
 
-    <fragment
-        android:id="@+id/fragment_team"
-        android:name="info.marcbernstein.ticketsearch.ui.TeamFragment"
+    <FrameLayout
+        android:id="@+id/side_panel"
         android:layout_width="@dimen/teams_size"
-        android:layout_height="match_parent"
-        tools:layout="@layout/fragment_teams"/>
+        android:layout_height="match_parent"/>
 
     <fragment
         android:id="@+id/fragment_map"

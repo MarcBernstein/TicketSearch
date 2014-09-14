@@ -7,8 +7,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -17,35 +18,46 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.common.base.Preconditions;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import info.marcbernstein.ticketsearch.data.geojson.model.Feature;
 import info.marcbernstein.ticketsearch.data.geojson.model.FeatureCollection;
+import info.marcbernstein.ticketsearch.data.stubhub.StubHubClient;
+import info.marcbernstein.ticketsearch.data.stubhub.model.StubHubResponse;
 import info.marcbernstein.ticketsearch.ui.TeamFragment;
-import info.marcbernstein.ticketsearch.util.FileUtils;
+import info.marcbernstein.ticketsearch.util.GeoJsonUtils;
 import info.marcbernstein.ticketsearch.util.UiUtils;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class StadiumsMapActivity extends FragmentActivity
     implements GoogleMap.OnMarkerClickListener, TeamFragment.OnFragmentInteractionListener {
 
   private static final String TAG = StadiumsMapActivity.class.getSimpleName();
-  public static final String GEOJSON_ASSET_FILENAME = "nfl_stadiums.geojson";
+  public static final int ANIM_DURATION = 500;
+
 
   private GoogleMap mMap; // Might be null if Google Play services APK is not available.
+
   private FeatureCollection mFeatureCollection;
+
+  private Map<String, Marker> mMapMarkers;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_stadiums_map);
 
-    String geojson = FileUtils.getAssetAsString(this, GEOJSON_ASSET_FILENAME);
-    Preconditions.checkNotNull(geojson, "GeoJSON is null, cannot add stadium markers.");
-
-    mFeatureCollection = FeatureCollection.fromJson(geojson);
-    Preconditions.checkNotNull(mFeatureCollection, "Error parsing the GeoJSON, cannot add stadium markers.");
+    mFeatureCollection = GeoJsonUtils.getStadiumFeatures(this);
 
     setUpMapIfNeeded();
+
+    if (UiUtils.isMultiPanel(this)) {
+      showTeamsFragment();
+    }
   }
 
   @Override
@@ -75,14 +87,12 @@ public class StadiumsMapActivity extends FragmentActivity
   }
 
   private void showTeamsFragment() {
+    DialogFragment teamFragment = TeamFragment.newInstance(mFeatureCollection);
     if (!UiUtils.isMultiPanel(this)) {
-      DialogFragment newFragment = TeamFragment.newInstance(mFeatureCollection);
-      newFragment.show(getFragmentManager(), TeamFragment.TAG);
+      teamFragment.show(getFragmentManager(), TeamFragment.TAG);
+    } else {
+      getFragmentManager().beginTransaction().add(R.id.side_panel, teamFragment, TeamFragment.TAG).commit();
     }
-
-    //    Fragment teamFragment = TeamFragment.newInstance();
-    //    getFragmentManager().beginTransaction().add(R.id.side_panel, teamFragment, TeamFragment.TAG)
-    //                        .addToBackStack(TeamFragment.TAG).commit();
   }
 
   /**
@@ -123,25 +133,73 @@ public class StadiumsMapActivity extends FragmentActivity
   }
 
   private void setupStadiumMarkers() {
+    if (mFeatureCollection == null || mFeatureCollection.getFeatures() == null) {
+      Log.w(TAG, "Feature Collection is empty, cannot add stadium markers.");
+      return;
+    }
+
+    mMapMarkers = new HashMap<>(mFeatureCollection.getFeatures().size());
+
     BitmapDescriptor symbol = BitmapDescriptorFactory.fromResource(R.drawable.football_marker);
     LatLng location;
     String title;
     for (Feature feature : mFeatureCollection.getFeatures()) {
       location = new LatLng(feature.getGeometry().getLatitude(), feature.getGeometry().getLongitude());
       title = feature.getTitle();
-      mMap.addMarker(new MarkerOptions().position(location).title(title).icon(symbol));
+      Marker stadiumMarker = mMap.addMarker(new MarkerOptions().position(location).title(title).icon(symbol));
+      mMapMarkers.put(title, stadiumMarker);
     }
   }
 
   @Override
   public boolean onMarkerClick(Marker marker) {
     // TODO implement
-    Toast.makeText(this, marker.getTitle(), Toast.LENGTH_SHORT).show();
+    // Toast.makeText(this, marker.getTitle(), Toast.LENGTH_SHORT).show();
+    // marker.showInfoWindow();
+    // mMap.animateCamera(CameraUpdateFactory.newLatLng(marker.getPosition()));
     return false;
   }
 
   @Override
-  public void onFragmentInteraction(String id) {
-    Log.d(TAG, "[onFragmentInteraction] " + id);
+  public void onFragmentInteraction(Feature feature) {
+    if (feature == null) {
+      Log.w(TAG, "No Feature to zoom to.");
+      return;
+    }
+
+    final Marker stadiumMarker = mMapMarkers.get(feature.getTitle());
+    if (stadiumMarker == null) {
+      Log.w(TAG, "Could not find stadium marker to zoom to.");
+      return;
+    }
+
+    CameraUpdate update = CameraUpdateFactory.newLatLngZoom(stadiumMarker.getPosition(), 10);
+    mMap.animateCamera(update, ANIM_DURATION, new GoogleMap.CancelableCallback() {
+      @Override
+      public void onFinish() {
+        if (!stadiumMarker.isInfoWindowShown()) {
+          stadiumMarker.showInfoWindow();
+        }
+      }
+
+      @Override
+      public void onCancel() {
+        // Empty, we don't provide ability to cancel.
+      }
+    });
+
+    StubHubClient.searchEvents(getString(R.string.stubhub_query, feature.getTitle()), new Callback<StubHubResponse>() {
+      @Override
+      public void success(StubHubResponse stubHubResponse, Response response) {
+        // TODO Show results to user
+        Log.d(TAG, "# of events found: " + stubHubResponse.getNumFound());
+      }
+
+      @Override
+      public void failure(RetrofitError error) {
+        // TODO Show error to user
+        Log.e(TAG, "Error: ", error);
+      }
+    });
   }
 }
