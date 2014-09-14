@@ -131,7 +131,9 @@ public class StadiumsMapActivity extends FragmentActivity
 
     // Order is important here, must setup the markers before crating the adapter with them.
     setupStadiumMarkers();
-    mMap.setInfoWindowAdapter(new TeamInfoWindowAdapter(this, mMapMarkers));
+    TeamInfoWindowAdapter adapter = new TeamInfoWindowAdapter(this, mMapMarkers);
+    mMap.setInfoWindowAdapter(adapter);
+    mMap.setOnInfoWindowClickListener(adapter);
   }
 
   private void setupStadiumMarkers() {

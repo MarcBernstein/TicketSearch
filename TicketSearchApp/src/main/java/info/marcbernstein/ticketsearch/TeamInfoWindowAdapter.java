@@ -2,6 +2,8 @@ package info.marcbernstein.ticketsearch;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,10 +14,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
 import com.google.common.collect.BiMap;
 
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import info.marcbernstein.ticketsearch.data.geojson.model.Feature;
@@ -27,7 +26,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class TeamInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
+public class TeamInfoWindowAdapter implements GoogleMap.InfoWindowAdapter, GoogleMap.OnInfoWindowClickListener {
 
   private static final String TAG = TeamInfoWindowAdapter.class.getSimpleName();
 
@@ -83,17 +82,8 @@ public class TeamInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
       return;
     }
 
-    List<Event> events = stubHubResponse.getEvents();
+    Event nextEvent = stubHubResponse.getNextEvent();
 
-    // TODO implement comparator in Event
-    Collections.sort(events, new Comparator<Event>() {
-      @Override
-      public int compare(Event event, Event event2) {
-        return 0;
-      }
-    });
-
-    Event nextEvent = events.get(0);
     View ticketsAvailableTextView = ticketInfoContainer.findViewById(R.id.tickets_available_text_view);
     if (ticketsAvailableTextView instanceof TextView) {
       ((TextView) ticketsAvailableTextView)
@@ -145,4 +135,18 @@ public class TeamInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
   }
 
 
+  @Override
+  public void onInfoWindowClick(Marker marker) {
+    Feature team = mMapMarkers.inverse().get(marker);
+    StubHubResponse stubHubResponse = mResponseMap.get(team);
+    Event nextEvent = stubHubResponse != null ? stubHubResponse.getNextEvent() : null;
+    if (nextEvent == null) {
+      return;
+    }
+
+    String url = nextEvent.getEventUrl();
+    Intent openBrowserIntent = new Intent(Intent.ACTION_VIEW);
+    openBrowserIntent.setData(Uri.parse(url));
+    mContext.startActivity(openBrowserIntent);
+  }
 }

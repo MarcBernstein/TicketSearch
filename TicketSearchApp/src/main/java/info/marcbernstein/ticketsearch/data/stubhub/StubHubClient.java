@@ -4,11 +4,18 @@ import android.os.Looper;
 
 import com.google.common.base.Preconditions;
 
+import org.joda.time.Instant;
+
+import java.util.Collections;
+import java.util.List;
+
 import info.marcbernstein.ticketsearch.BuildConfig;
 import info.marcbernstein.ticketsearch.data.stubhub.model.StubHubResponse;
 import retrofit.Callback;
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 import retrofit.http.GET;
 import retrofit.http.Query;
 
@@ -23,10 +30,14 @@ public class StubHubClient {
   private static final String APP_TOKEN = "ggmgN2D2lglFKwkYwCRZM7CSSHca";
 
   public interface StubHubService {
-    @GET("/listingCatalog/select?wt=json&fl=event_id,description,event_date,venue_name,totalTickets")
+
+    final static String LIST_CATALOG_PATH =
+        "/listingCatalog/select?wt=json&fl=event_id,description,event_date_time_local,venue_name,totalTickets,urlpath";
+
+    @GET(LIST_CATALOG_PATH)
     void searchEvents(@Query("q") String query, Callback<StubHubResponse> callback);
 
-    @GET("/listingCatalog/select?wt=json&fl=event_id,description,event_date,venue_name,totalTickets")
+    @GET(LIST_CATALOG_PATH)
     StubHubResponse searchEvents(@Query("q") String query);
   }
 
@@ -55,8 +66,24 @@ public class StubHubClient {
    * @param query    The query to pass to the listingCatalog API
    * @param callback The callback to get the results from
    */
-  public static void searchEvents(String query, Callback<StubHubResponse> callback) {
-    sService.searchEvents(query, callback);
+  public static void searchEvents(String query, final Callback<StubHubResponse> callback) {
+    sService.searchEvents(query, new Callback<StubHubResponse>() {
+      @Override
+      public void success(StubHubResponse stubHubResponse, Response response) {
+        postProcess(stubHubResponse);
+
+        if (callback != null) {
+          callback.success(stubHubResponse, response);
+        }
+      }
+
+      @Override
+      public void failure(RetrofitError error) {
+        if (callback != null) {
+          callback.failure(error);
+        }
+      }
+    });
   }
 
   /**
@@ -68,6 +95,40 @@ public class StubHubClient {
   public static StubHubResponse searchEvents(String query) {
     Preconditions
         .checkState(Looper.myLooper() != Looper.getMainLooper(), "This method cannot be run on the UI thread.");
-    return sService.searchEvents(query);
+    StubHubResponse stubHubResponse = sService.searchEvents(query);
+    postProcess(stubHubResponse);
+    return stubHubResponse;
+  }
+
+  /**
+   * Parses all events, creating an entry in the object for the next upcoming event.
+   *
+   * @param stubHubResponse The Response to get the Events from
+   */
+  private static void postProcess(StubHubResponse stubHubResponse) {
+    if (stubHubResponse == null || stubHubResponse.getEvents() == null || stubHubResponse.getEvents().isEmpty()) {
+      return;
+    }
+
+    List<StubHubResponse.Event> events = stubHubResponse.getEvents();
+
+    // Add the UTC epoch time to the Event
+    for (StubHubResponse.Event event : events) {
+      event.postProcess();
+    }
+
+    Collections.sort(events);
+
+    Instant now = Instant.now();
+    for (StubHubResponse.Event event : events) {
+      // Ignore events in the past
+      if (now.isAfter(event.getEventDateAsUtcSeconds())) {
+        continue;
+      }
+
+      // First time we get here in our sorted list, it should be the next event.
+      stubHubResponse.setNextEvent(event);
+      break;
+    }
   }
 }
