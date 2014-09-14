@@ -22,6 +22,7 @@ import info.marcbernstein.ticketsearch.data.geojson.model.Feature;
 import info.marcbernstein.ticketsearch.data.stubhub.StubHubClient;
 import info.marcbernstein.ticketsearch.data.stubhub.model.StubHubResponse;
 import info.marcbernstein.ticketsearch.data.stubhub.model.StubHubResponse.Event;
+import info.marcbernstein.ticketsearch.util.UiUtils;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -107,7 +108,8 @@ public class TeamInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
 
     View eventDateTextView = ticketInfoContainer.findViewById(R.id.event_date_text_view);
     if (ticketsAvailableTextView instanceof TextView) {
-      ((TextView) eventDateTextView).setText(mContext.getString(R.string.event_date, nextEvent.getEventDate()));
+      ((TextView) eventDateTextView).setText(mContext.getString(R.string.event_date, UiUtils.getDateTimeString(
+          nextEvent)));
     }
 
     View venueNameTextView = ticketInfoContainer.findViewById(R.id.venue_name_text_view);
