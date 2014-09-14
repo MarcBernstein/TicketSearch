@@ -1,4 +1,4 @@
-package info.marcbernstein.ticketsearch.utils;
+package info.marcbernstein.ticketsearch.util;
 
 import android.content.Context;
 

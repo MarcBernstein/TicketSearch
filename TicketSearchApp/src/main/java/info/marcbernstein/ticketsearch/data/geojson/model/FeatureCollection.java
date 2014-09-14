@@ -1,4 +1,4 @@
-package info.marcbernstein.ticketsearch.geojson;
+package info.marcbernstein.ticketsearch.data.geojson.model;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;

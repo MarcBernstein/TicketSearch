@@ -5,8 +5,8 @@ import android.text.TextUtils;
 
 import java.util.List;
 
-import info.marcbernstein.ticketsearch.geojson.Feature;
-import info.marcbernstein.ticketsearch.geojson.FeatureCollection;
+import info.marcbernstein.ticketsearch.data.geojson.model.Feature;
+import info.marcbernstein.ticketsearch.data.geojson.model.FeatureCollection;
 import info.marcbernstein.ticketsearch.util.FileUtils;
 
 public class GeoJSONTest extends AndroidTestCase {

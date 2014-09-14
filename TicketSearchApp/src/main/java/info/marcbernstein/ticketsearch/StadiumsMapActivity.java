@@ -9,22 +9,21 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.common.base.Preconditions;
 
-import info.marcbernstein.ticketsearch.geojson.Feature;
-import info.marcbernstein.ticketsearch.geojson.FeatureCollection;
+import info.marcbernstein.ticketsearch.data.geojson.model.Feature;
+import info.marcbernstein.ticketsearch.data.geojson.model.FeatureCollection;
+import info.marcbernstein.ticketsearch.ui.TeamFragment;
 import info.marcbernstein.ticketsearch.util.FileUtils;
-import info.marcbernstein.ticketsearch.utils.UiUtils;
+import info.marcbernstein.ticketsearch.util.UiUtils;
 
 public class StadiumsMapActivity extends FragmentActivity
     implements GoogleMap.OnMarkerClickListener, TeamFragment.OnFragmentInteractionListener {

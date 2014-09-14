@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/fragment_team"
-        android:name="info.marcbernstein.ticketsearch.TeamFragment"
+        android:name="info.marcbernstein.ticketsearch.ui.TeamFragment"
         android:layout_width="@dimen/teams_size"
         android:layout_height="match_parent"
         tools:layout="@layout/fragment_teams"/>

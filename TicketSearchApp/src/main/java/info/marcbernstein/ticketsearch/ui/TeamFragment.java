@@ -1,8 +1,10 @@
-package info.marcbernstein.ticketsearch;
+package info.marcbernstein.ticketsearch.ui;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.DialogFragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +14,15 @@ import android.widget.ListView;
 
 import com.google.common.base.Preconditions;
 
-import info.marcbernstein.ticketsearch.geojson.FeatureCollection;
+import info.marcbernstein.ticketsearch.R;
+import info.marcbernstein.ticketsearch.StadiumsMapActivity;
+import info.marcbernstein.ticketsearch.data.geojson.model.FeatureCollection;
+import info.marcbernstein.ticketsearch.data.stubhub.StubHubClient;
+import info.marcbernstein.ticketsearch.data.stubhub.model.StubHubResponse;
 import info.marcbernstein.ticketsearch.util.FileUtils;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
  * A dialog fragment representing the list of teams.
@@ -64,14 +73,23 @@ public class TeamFragment extends DialogFragment implements AdapterView.OnItemCl
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    ListView listView = (ListView) inflater.inflate(R.layout.fragment_teams, container, false);
+    ListView listView = new ListView(getActivity());
     mTeams = new String[mFeatureCollection.getFeatures().size()];
     for (int i = 0; i < mTeams.length; i++) {
       mTeams[i] = mFeatureCollection.getFeatures().get(i).getTitle();
     }
-    listView.setAdapter(
-        new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, android.R.id.text1, mTeams));
+    ArrayAdapter<String> adapter =
+        new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, android.R.id.text1, mTeams);
+    listView.setAdapter(adapter);
+    listView.setOnItemClickListener(this);
     return listView;
+  }
+
+  @Override
+  public Dialog onCreateDialog(Bundle savedInstanceState) {
+    Dialog dialog = super.onCreateDialog(savedInstanceState);
+    dialog.setTitle(R.string.select_a_team);
+    return dialog;
   }
 
   @Override
@@ -93,6 +111,20 @@ public class TeamFragment extends DialogFragment implements AdapterView.OnItemCl
 
   @Override
   public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+    // TODO move to map activity
+    StubHubClient.searchEvents("stubhubDocumentType:event AND description:san diego chargers AND -description:PARKING AND -description:Season Tickets AND ancestorGenreDescriptions:NFL", new Callback<StubHubResponse>() {
+      @Override
+      public void success(StubHubResponse stubHubResponse, Response response) {
+        // TODO Show results to user
+        Log.d(TAG, "# of events found: " + stubHubResponse.getNumFound());
+      }
+
+      @Override
+      public void failure(RetrofitError error) {
+        // TODO Show error to user
+        Log.e(TAG, "Error: ", error);
+      }
+    });
     if (mListener != null) {
       mListener.onFragmentInteraction(mTeams[position]);
     }
