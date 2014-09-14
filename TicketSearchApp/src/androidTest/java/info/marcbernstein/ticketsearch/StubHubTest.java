@@ -2,15 +2,10 @@ package info.marcbernstein.ticketsearch;
 
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.LargeTest;
-import android.util.Log;
-
-import com.google.common.base.Stopwatch;
 
 import info.marcbernstein.ticketsearch.data.stubhub.StubHubClient;
 import info.marcbernstein.ticketsearch.data.stubhub.model.StubHubResponse;
-import retrofit.Callback;
 import retrofit.RetrofitError;
-import retrofit.client.Response;
 
 public class StubHubTest extends AndroidTestCase {
 
