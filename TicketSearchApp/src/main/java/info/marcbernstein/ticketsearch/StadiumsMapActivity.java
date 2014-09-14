@@ -18,9 +18,8 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-
-import java.util.HashMap;
-import java.util.Map;
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
 
 import info.marcbernstein.ticketsearch.data.geojson.model.Feature;
 import info.marcbernstein.ticketsearch.data.geojson.model.FeatureCollection;
@@ -44,7 +43,7 @@ public class StadiumsMapActivity extends FragmentActivity
 
   private FeatureCollection mFeatureCollection;
 
-  private Map<String, Marker> mMapMarkers;
+  private BiMap<Feature, Marker> mMapMarkers;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -129,7 +128,10 @@ public class StadiumsMapActivity extends FragmentActivity
     mMap.getUiSettings().setZoomControlsEnabled(false);
     mMap.setMyLocationEnabled(true);
     mMap.setOnMarkerClickListener(this);
+
+    // Order is important here, must setup the markers before crating the adapter with them.
     setupStadiumMarkers();
+    mMap.setInfoWindowAdapter(new TeamInfoWindowAdapter(this, mMapMarkers));
   }
 
   private void setupStadiumMarkers() {
@@ -138,7 +140,7 @@ public class StadiumsMapActivity extends FragmentActivity
       return;
     }
 
-    mMapMarkers = new HashMap<>(mFeatureCollection.getFeatures().size());
+    mMapMarkers = HashBiMap.create(mFeatureCollection.getFeatures().size());
 
     BitmapDescriptor symbol = BitmapDescriptorFactory.fromResource(R.drawable.football_marker);
     LatLng location;
@@ -147,7 +149,7 @@ public class StadiumsMapActivity extends FragmentActivity
       location = new LatLng(feature.getGeometry().getLatitude(), feature.getGeometry().getLongitude());
       title = feature.getTitle();
       Marker stadiumMarker = mMap.addMarker(new MarkerOptions().position(location).title(title).icon(symbol));
-      mMapMarkers.put(title, stadiumMarker);
+      mMapMarkers.put(feature, stadiumMarker);
     }
   }
 
@@ -167,7 +169,7 @@ public class StadiumsMapActivity extends FragmentActivity
       return;
     }
 
-    final Marker stadiumMarker = mMapMarkers.get(feature.getTitle());
+    final Marker stadiumMarker = mMapMarkers.get(feature);
     if (stadiumMarker == null) {
       Log.w(TAG, "Could not find stadium marker to zoom to.");
       return;
@@ -185,20 +187,6 @@ public class StadiumsMapActivity extends FragmentActivity
       @Override
       public void onCancel() {
         // Empty, we don't provide ability to cancel.
-      }
-    });
-
-    StubHubClient.searchEvents(getString(R.string.stubhub_query, feature.getTitle()), new Callback<StubHubResponse>() {
-      @Override
-      public void success(StubHubResponse stubHubResponse, Response response) {
-        // TODO Show results to user
-        Log.d(TAG, "# of events found: " + stubHubResponse.getNumFound());
-      }
-
-      @Override
-      public void failure(RetrofitError error) {
-        // TODO Show error to user
-        Log.e(TAG, "Error: ", error);
       }
     });
   }

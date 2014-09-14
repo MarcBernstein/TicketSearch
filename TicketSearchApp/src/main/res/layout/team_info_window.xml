@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Note: Any hardcoded text is just for preview purposes, and gets replaced at runtime. -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/team_name_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:padding="10dp"
+        android:text="Team Name"
+        android:textAppearance="@android:style/TextAppearance.Medium"
+        android:textStyle="bold"
+        tools:ignore="HardcodedText"/>
+
+
+    <LinearLayout
+        android:id="@+id/fetching_ticket_info_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal">
+
+        <TextView
+            android:id="@+id/fetching_text_view"
+            style="@style/infoWindowTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.8"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="@string/fetching_ticket_info_please_wait"/>
+
+        <ProgressBar
+            android:id="@+id/fetching_progress_bar"
+            style="?android:attr/progressBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0.2"
+            android:padding="5dp"/>
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/ticket_info_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+            <TextView
+                android:id="@+id/tickets_available_text_view"
+                style="@style/ticketInfoTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tickets_available"/>
+
+            <TextView
+                android:id="@+id/event_description_text_view"
+                style="@style/ticketInfoTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Event description here"
+                tools:ignore="HardcodedText"/>
+
+            <TextView
+                android:id="@+id/event_date_text_view"
+                style="@style/ticketInfoTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Event date here"
+                tools:ignore="HardcodedText"/>
+
+            <TextView
+                android:id="@+id/venue_name_text_view"
+                style="@style/ticketInfoTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Venue name here"
+                tools:ignore="HardcodedText"/>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

@@ -31,6 +31,22 @@ public class StubHubResponse {
     private String event_date;
     private int totalTickets;
     private String venue_name;
+
+    public String getDescription() {
+      return description;
+    }
+
+    public String getEventDate() {
+      return event_date;
+    }
+
+    public int getTotalTickets() {
+      return totalTickets;
+    }
+
+    public String getVenueName() {
+      return venue_name;
+    }
   }
 
   public int getNumFound() {
