@@ -1,31 +1,29 @@
 package info.marcbernstein.ticketsearch;
 
 import android.test.AndroidTestCase;
+import android.test.suitebuilder.annotation.SmallTest;
 import android.text.TextUtils;
 
 import java.util.List;
 
 import info.marcbernstein.ticketsearch.data.geojson.model.Feature;
 import info.marcbernstein.ticketsearch.data.geojson.model.FeatureCollection;
-import info.marcbernstein.ticketsearch.util.FileUtils;
+import info.marcbernstein.ticketsearch.util.GeoJsonUtils;
 
 public class GeoJSONTest extends AndroidTestCase {
-
-  private String mGeoJson;
 
   private FeatureCollection mFeatureCollection;
 
   @Override
   protected void setUp() throws Exception {
-    mGeoJson = FileUtils.getAssetAsString(mContext, StadiumsMapActivity.GEOJSON_ASSET_FILENAME);
-    mFeatureCollection = FeatureCollection.fromJson(mGeoJson);
+    mFeatureCollection = GeoJsonUtils.getStadiumFeatures(mContext);
   }
 
   public void testPreconditions() {
-    assertTrue("GeoJson is empty.", !TextUtils.isEmpty(mGeoJson));
     assertNotNull("A FeatureCollection could not be parsed from the GeoJSON.", mFeatureCollection);
   }
 
+  @SmallTest
   public void testFeatures() {
     List<Feature> features = mFeatureCollection.getFeatures();
     assertNotNull("No Features found in FeatureCollection.", features);
