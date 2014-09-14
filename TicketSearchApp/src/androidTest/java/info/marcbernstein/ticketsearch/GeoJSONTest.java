@@ -33,8 +33,9 @@ public class GeoJSONTest extends AndroidTestCase {
 
     Feature firstFeature = features.get(0);
     assertNotNull("First feature is null.", firstFeature);
-    assertTrue("First feature latitude is NaN.", !Double.isNaN(firstFeature.getLatitude()));
-    assertTrue("First feature longitude is NaN.", !Double.isNaN(firstFeature.getLongitude()));
+    assertNotNull("First feature geometry is null.", firstFeature.getGeometry());
+    assertTrue("First feature latitude is NaN.", !Double.isNaN(firstFeature.getGeometry().getLatitude()));
+    assertTrue("First feature longitude is NaN.", !Double.isNaN(firstFeature.getGeometry().getLongitude()));
     assertTrue("First feature title is empty.", !TextUtils.isEmpty(firstFeature.getTitle()));
   }
 
