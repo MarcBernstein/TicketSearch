@@ -13,5 +13,6 @@
     <string name="event_date">Date: %1$s</string>
     <string name="event_venue">Venue: %1$s</string>
     <string name="no_events_found">Could not find any future home games for this team.</string>
+    <string name="click_here_to_buy">(Click anywhere in this window to buy tickets)</string>
 
 </resources>

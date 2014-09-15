@@ -172,7 +172,7 @@ public class StadiumsMapActivity extends FragmentActivity
       return;
     }
 
-    CameraUpdate update = CameraUpdateFactory.newLatLngZoom(stadiumMarker.getPosition(), 10);
+    CameraUpdate update = CameraUpdateFactory.newLatLngZoom(stadiumMarker.getPosition(), 12);
     mMap.animateCamera(update, ANIM_DURATION, new GoogleMap.CancelableCallback() {
       @Override
       public void onFinish() {

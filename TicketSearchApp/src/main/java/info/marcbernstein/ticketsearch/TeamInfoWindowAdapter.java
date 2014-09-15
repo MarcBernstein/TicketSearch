@@ -3,6 +3,7 @@ package info.marcbernstein.ticketsearch;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,8 +20,8 @@ import java.util.Map;
 
 import info.marcbernstein.ticketsearch.data.geojson.model.Feature;
 import info.marcbernstein.ticketsearch.data.stubhub.StubHubClient;
-import info.marcbernstein.ticketsearch.data.stubhub.model.StubHubResponse;
 import info.marcbernstein.ticketsearch.data.stubhub.model.Event;
+import info.marcbernstein.ticketsearch.data.stubhub.model.StubHubResponse;
 import info.marcbernstein.ticketsearch.util.UiUtils;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -96,19 +97,19 @@ public class TeamInfoWindowAdapter implements GoogleMap.InfoWindowAdapter, Googl
     }
 
     View eventDescriptionTextView = ticketInfoContainer.findViewById(R.id.event_description_text_view);
-    if (ticketsAvailableTextView instanceof TextView) {
+    if (eventDescriptionTextView instanceof TextView) {
       ((TextView) eventDescriptionTextView)
           .setText(mContext.getString(R.string.event_description, nextEvent.getDescription()));
     }
 
     View eventDateTextView = ticketInfoContainer.findViewById(R.id.event_date_text_view);
-    if (ticketsAvailableTextView instanceof TextView) {
+    if (eventDateTextView instanceof TextView) {
       ((TextView) eventDateTextView)
           .setText(mContext.getString(R.string.event_date, UiUtils.getDateTimeString(nextEvent)));
     }
 
     View venueNameTextView = ticketInfoContainer.findViewById(R.id.venue_name_text_view);
-    if (ticketsAvailableTextView instanceof TextView) {
+    if (venueNameTextView instanceof TextView) {
       ((TextView) venueNameTextView).setText(mContext.getString(R.string.event_venue, nextEvent.getVenueName()));
     }
 

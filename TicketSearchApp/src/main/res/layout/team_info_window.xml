@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:gravity="center_horizontal"
-        android:padding="10dp"
+        android:padding="7dp"
         android:text="Team Name"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textStyle="bold"
@@ -58,7 +58,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="5dp">
+            android:padding="@dimen/layout_container_padding">
 
             <TextView
                 android:id="@+id/tickets_available_text_view"
@@ -90,6 +90,16 @@
                 android:layout_height="wrap_content"
                 android:text="Venue name here"
                 tools:ignore="HardcodedText"/>
+
+            <TextView
+                android:id="@+id/click_here_text_view"
+                style="@style/ticketInfoTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal"
+                android:text="@string/click_here_to_buy"
+                android:textColor="@color/app_primary"/>
         </LinearLayout>
     </ScrollView>
 
