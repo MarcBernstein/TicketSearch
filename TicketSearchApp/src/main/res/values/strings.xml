@@ -12,6 +12,6 @@
     <string name="event_description">Description: %1$s</string>
     <string name="event_date">Date: %1$s</string>
     <string name="event_venue">Venue: %1$s</string>
-    <string name="no_events_found">Could not find any home games for this team.</string>
+    <string name="no_events_found">Could not find any future home games for this team.</string>
 
 </resources>

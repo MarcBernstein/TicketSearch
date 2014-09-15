@@ -95,13 +95,11 @@
 
     <TextView
         android:id="@+id/no_events_found_text_view"
+        style="@style/infoWindowTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
         android:gravity="center_horizontal"
-        android:padding="10dp"
         android:text="@string/no_events_found"
-        android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@android:color/holo_red_light"
         android:visibility="gone"/>
 
