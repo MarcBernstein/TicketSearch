@@ -1,6 +1,7 @@
 package info.marcbernstein.ticketsearch.util;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 
 import com.google.common.base.Preconditions;
 
@@ -41,5 +42,26 @@ public final class UiUtils {
     Preconditions.checkNotNull(event, "Event cannot be null.");
     DateTime dateTime = STUB_HUB_DATE_TIME_FORMAT.parseDateTime(event.getEventDateAsFormattedString());
     return dateTime.getMillis();
+  }
+
+  /**
+   * Convenience method to check if this is the app's first launch. If so, it writes out to the SharedPreferences.
+   *
+   * @param context The Context to use to access the SharedPreferences
+   * @return whether or not this is the app's first launch
+   */
+  public static boolean isFirstLaunch(Context context) {
+    Preconditions.checkNotNull(context, "Context cannot be null.");
+    SharedPreferences settings =
+        context.getSharedPreferences(context.getString(R.string.app_name), Context.MODE_PRIVATE);
+    boolean firstLaunch = settings.getBoolean("isFirstRun", true);
+
+    if (firstLaunch) {
+      SharedPreferences.Editor editor = settings.edit();
+      editor.putBoolean("isFirstRun", false);
+      editor.apply();
+    }
+
+    return firstLaunch;
   }
 }

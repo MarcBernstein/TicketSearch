@@ -23,6 +23,7 @@ import com.google.common.collect.HashBiMap;
 
 import info.marcbernstein.ticketsearch.data.geojson.model.Feature;
 import info.marcbernstein.ticketsearch.data.geojson.model.FeatureCollection;
+import info.marcbernstein.ticketsearch.ui.FirstLaunchDialogFragment;
 import info.marcbernstein.ticketsearch.ui.TeamFragment;
 import info.marcbernstein.ticketsearch.ui.TeamInfoWindowAdapter;
 import info.marcbernstein.ticketsearch.util.GeoJsonUtils;
@@ -52,6 +53,11 @@ public class StadiumsMapActivity extends FragmentActivity
 
     if (UiUtils.isMultiPanel(this)) {
       showTeamsFragment();
+    }
+
+    if (UiUtils.isFirstLaunch(this)) {
+      DialogFragment firstLaunchDialogFragment = FirstLaunchDialogFragment.newInstance();
+      firstLaunchDialogFragment.show(getFragmentManager(), FirstLaunchDialogFragment.TAG);
     }
   }
 
