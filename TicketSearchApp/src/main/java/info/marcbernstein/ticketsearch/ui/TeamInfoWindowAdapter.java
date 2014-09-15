@@ -1,4 +1,4 @@
-package info.marcbernstein.ticketsearch;
+package info.marcbernstein.ticketsearch.ui;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -17,6 +17,7 @@ import com.google.common.collect.BiMap;
 import java.util.HashMap;
 import java.util.Map;
 
+import info.marcbernstein.ticketsearch.R;
 import info.marcbernstein.ticketsearch.data.geojson.model.Feature;
 import info.marcbernstein.ticketsearch.data.stubhub.StubHubClient;
 import info.marcbernstein.ticketsearch.data.stubhub.model.Event;
@@ -34,7 +35,7 @@ public class TeamInfoWindowAdapter implements GoogleMap.InfoWindowAdapter, Googl
 
   private final BiMap<Feature, Marker> mMapMarkers;
 
-  private Map<Feature, StubHubResponse> mResponseMap = new HashMap<>();
+  private final Map<Feature, StubHubResponse> mResponseMap = new HashMap<>();
 
   public TeamInfoWindowAdapter(Context context, BiMap<Feature, Marker> mapMarkers) {
     mContext = context;

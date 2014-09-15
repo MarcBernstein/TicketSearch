@@ -46,19 +46,19 @@ public class StubHubClient {
   /**
    * Add our StubHub API app token to every request. *
    */
-  private static RequestInterceptor sRequestInterceptor = new RequestInterceptor() {
+  private static final RequestInterceptor sRequestInterceptor = new RequestInterceptor() {
     @Override
     public void intercept(RequestInterceptor.RequestFacade request) {
       request.addHeader("Authorization", String.format("Bearer %s", APP_TOKEN));
     }
   };
 
-  private static RestAdapter sRestAdapter =
+  private static final RestAdapter sRestAdapter =
       new RestAdapter.Builder().setEndpoint(API_URL).setRequestInterceptor(sRequestInterceptor)
           // If this is a debug build, show the full Retrofit response. Otherwise no logging.
           .setLogLevel(BuildConfig.DEBUG ? RestAdapter.LogLevel.FULL : RestAdapter.LogLevel.NONE).build();
 
-  private static StubHubService sService = sRestAdapter.create(StubHubService.class);
+  private static final StubHubService sService = sRestAdapter.create(StubHubService.class);
 
   /**
    * Query (asynchronously) the StubHub API to search for events matching the query. See <a href="http://stubhubapi
