@@ -26,6 +26,14 @@ See section on [how to build](#build).
 #### Building the app ###
 *Requirements:*  
 * Java 7 is required
+* All other Android SDK requirements (including the SDK iteself) **should** be downloaded automatically by the SDK Manager gradle plugin if they are missing.  
+  * If there's an error that looks like:
+  ```
+  Could not find com.android.support:support-v4:19.1.0.
+     Required by:
+         TicketSearch:TicketSearchApp:unspecified > com.google.android.gms:play-services:5.0.89
+  ```
+  you may need to install the `Android Support Repository` option uner Extras in the Android SDK Manager first. This can be found under your Android SDK's tools directory (~/.android-sdk/tools/android if the gradle build downloaded the Android SDK for you). Both `Google Repository` and `Android Support Repository` must be installed.
 
 After cloning the repo, you can build from within Android Studio or on the command line.  
 
