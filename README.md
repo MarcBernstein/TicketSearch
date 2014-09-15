@@ -1,6 +1,9 @@
 ## Ticket Search ##
 Ticket Search enables you to look for available tickets for your favorite team's next game.
 
+### How to build ###
+See section on [how to build](#build).
+
 ### 3rd party resources used in this project ###
 * [Android Action Bar Style Generator](http://jgilfelt.github.io/android-actionbarstylegenerator) 
 * [SDK Manager Gradle Plugin](https://github.com/JakeWharton/sdk-manager-plugin) 
@@ -15,6 +18,36 @@ Ticket Search enables you to look for available tickets for your favorite team's
 * [Gson - A Java library to convert JSON to Java objects and vice-versa](https://code.google.com/p/google-gson/)
 * [Google Play Services](https://developer.android.com/google/play-services/index.html)
 
-### Other ###
+### Other Resources ###
 [Stadium data converted to GeoJSON from a FeatureService](http://services1.arcgis.com/oASeSX1dVztKCgUc/arcgis/rest/services/NFL_Draft_Teams/FeatureServer/0?f=pjson)
 [View the stadiums map](https://gist.github.com/MarcBernstein/8933d0991e94160b5947) as a GeoJSON map on GitHub
+
+<a name="build"></a>
+#### Building the app ###
+*Requirements:*  
+* Java 7 is required
+
+After cloning the repo, you can build from within Android Studio or on the command line.  
+
+*Command line:*  
+1. `git clone https://github.com/MarcBernstein/TicketSearch.git`  
+2. `cd TicketSearch`  
+3. `./gradlew build`  
+The debug .apk will be located at `TicketSearchApp/build/outputs/apk/TicketSearchApp-debug.apk` 
+
+*Android Studio:*  
+1. Clone the repo locally, or from the 'Check out from Version Control' menu in the `Welcome to Android Studio` launch screen.  
+2. If cloned manually, click 'Open Project' and navigate to the cloned repo location.   
+
+#### Testing the app ####
+First, connect a device to the machine where it's accessible via the adb command.
+
+*Command line:*  
+1. cd into the repo directory  
+2. Run `./gradlew connectedAndroidTest`  
+3. Test reports are available under `TicketSearchApp/build/outputs/reports/androidTests/connected/index.html`.  
+
+*Android Studio:*  
+1. Expand the TicketSearch folder so that the TicketSearchApp folder is visible.  
+2. Right click on the TicketSearchApp folder, got to the Run menu item, then click the `All Tests` submenu item.  
+3. If it's not already visible, open the `Run` tool window. You should see the tests running.  
