@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:gravity="center_horizontal"
-        android:padding="7dp"
+        android:paddingBottom="3dp"
         android:text="Team Name"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textStyle="bold"
@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_weight="0.2"
-            android:padding="5dp"/>
+            android:padding="1dp"/>
     </LinearLayout>
 
     <ScrollView
