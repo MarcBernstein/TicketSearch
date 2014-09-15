@@ -9,7 +9,7 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 import info.marcbernstein.ticketsearch.R;
-import info.marcbernstein.ticketsearch.data.stubhub.model.StubHubResponse;
+import info.marcbernstein.ticketsearch.data.stubhub.model.Event;
 
 public final class UiUtils {
 
@@ -31,13 +31,13 @@ public final class UiUtils {
     return context.getResources().getBoolean(R.bool.two_panels);
   }
 
-  public static String getDateTimeString(StubHubResponse.Event event) {
+  public static String getDateTimeString(Event event) {
     Preconditions.checkNotNull(event, "Event cannot be null.");
     DateTime dateTime = STUB_HUB_DATE_TIME_FORMAT.parseDateTime(event.getEventDateAsFormattedString());
     return SANE_DATE_TIME_FORMAT.print(dateTime);
   }
 
-  public static long getDateTimeAsEpoch(StubHubResponse.Event event) {
+  public static long getDateTimeAsEpoch(Event event) {
     Preconditions.checkNotNull(event, "Event cannot be null.");
     DateTime dateTime = STUB_HUB_DATE_TIME_FORMAT.parseDateTime(event.getEventDateAsFormattedString());
     return dateTime.getMillis();

@@ -1,95 +1,20 @@
 package info.marcbernstein.ticketsearch.data.stubhub.model;
 
-import android.text.TextUtils;
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Objects;
 
-import com.google.gson.annotations.SerializedName;
-
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 
 import info.marcbernstein.ticketsearch.data.geojson.model.Feature;
-import info.marcbernstein.ticketsearch.util.UiUtils;
 
 @SuppressWarnings("unused") // Gson does in fact use these
-public class StubHubResponse {
+public class StubHubResponse implements Serializable {
 
   private Response response;
 
   private Feature team;
-
-  private static class Response {
-    private int numFound = -1;
-
-    @SerializedName("docs")
-    private List<Event> events;
-
-    private Event nextEvent;
-
-    private int getNumFound() {
-      return numFound;
-    }
-
-    private List<Event> getEvents() {
-      return events;
-    }
-  }
-
-  public static class Event implements Comparable<Event> {
-    private static final String STUBHUB_BASE_URL = "http://www.stubhub.com/";
-
-    private static final String[] DESCRIPTION_SCRUB_LIST = {"Tickets"};
-
-    private String event_id;
-    private String description;
-    private String event_date_time_local;
-    private int totalTickets;
-    private String venue_name;
-    private String urlpath;
-    private long utcSeconds;
-
-    public String getDescription() {
-      return description;
-    }
-
-    public String getEventDateAsFormattedString() {
-      return event_date_time_local;
-    }
-
-    public long getEventDateAsUtcSeconds() {
-      return utcSeconds;
-    }
-
-    public int getTotalTickets() {
-      return totalTickets;
-    }
-
-    public String getVenueName() {
-      return venue_name;
-    }
-
-    public String getEventUrl() {
-      return STUBHUB_BASE_URL + urlpath;
-    }
-
-    public void postProcess() {
-      // Save the event date as epocj time
-      utcSeconds = UiUtils.getDateTimeAsEpoch(this);
-
-      // Remove constant strings from the description if found
-      if (!TextUtils.isEmpty(description)) {
-        for (String scrubStr : DESCRIPTION_SCRUB_LIST) {
-          if (description.contains(scrubStr)) {
-            description = description.replace(scrubStr, "");
-          }
-        }
-      }
-    }
-
-    @Override
-    public int compareTo(Event other) {
-      return Long.valueOf(this.utcSeconds).compareTo(other.utcSeconds);
-    }
-  }
 
   public int getNumFound() {
     return response != null ? response.numFound : 0;
@@ -115,5 +40,30 @@ public class StubHubResponse {
 
   public Feature getTeam() {
     return team;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+
+    StubHubResponse that = (StubHubResponse) o;
+
+    return Objects.equal(this.response, that.response) && Objects.equal(this.team, that.team);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hashCode(response, team);
+  }
+
+
+  @Override
+  public String toString() {
+    return MoreObjects.toStringHelper(this).add("response", response).add("team", team).toString();
   }
 }

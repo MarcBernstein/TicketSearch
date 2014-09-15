@@ -11,6 +11,7 @@ import java.util.List;
 
 import info.marcbernstein.ticketsearch.BuildConfig;
 import info.marcbernstein.ticketsearch.data.geojson.model.Feature;
+import info.marcbernstein.ticketsearch.data.stubhub.model.Event;
 import info.marcbernstein.ticketsearch.data.stubhub.model.StubHubResponse;
 import retrofit.Callback;
 import retrofit.RequestInterceptor;
@@ -118,17 +119,17 @@ public class StubHubClient {
     stubHubResponse.setTeam(team);
     String stadiumName = team.getStadiumName();
 
-    List<StubHubResponse.Event> events = stubHubResponse.getEvents();
+    List<Event> events = stubHubResponse.getEvents();
 
     // Add the UTC epoch time to the Event
-    for (StubHubResponse.Event event : events) {
+    for (Event event : events) {
       event.postProcess();
     }
 
     Collections.sort(events);
 
     Instant now = Instant.now();
-    for (StubHubResponse.Event event : events) {
+    for (Event event : events) {
       // Ignore events in the past
       if (now.isAfter(event.getEventDateAsUtcSeconds())) {
         continue;

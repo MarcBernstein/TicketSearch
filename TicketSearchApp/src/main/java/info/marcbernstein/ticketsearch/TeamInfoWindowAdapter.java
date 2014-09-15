@@ -20,7 +20,7 @@ import java.util.Map;
 import info.marcbernstein.ticketsearch.data.geojson.model.Feature;
 import info.marcbernstein.ticketsearch.data.stubhub.StubHubClient;
 import info.marcbernstein.ticketsearch.data.stubhub.model.StubHubResponse;
-import info.marcbernstein.ticketsearch.data.stubhub.model.StubHubResponse.Event;
+import info.marcbernstein.ticketsearch.data.stubhub.model.Event;
 import info.marcbernstein.ticketsearch.util.UiUtils;
 import retrofit.Callback;
 import retrofit.RetrofitError;
