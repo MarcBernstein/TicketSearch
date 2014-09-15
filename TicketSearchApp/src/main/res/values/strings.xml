@@ -5,12 +5,13 @@
     <string name="title_activity_stadiums_map">Ticket Search</string>
     <string name="show_teams">Show Teams</string>
     <string name="select_a_team">Select a team</string>
-    <string name="stubhub_query">stubhubDocumentType:event AND description:%1$s AND -description:PARKING AND -description:Season Tickets AND ancestorGenreDescriptions:NFL</string>
+    <string name="stubhub_query">stubhubDocumentType:event AND description:%1$s AND -description:PARKING AND -description:Season Tickets AND -description:VIP AND -description:Tailgate AND ancestorGenreDescriptions:NFL</string>
     <string name="fetching_ticket_info_please_wait">Fetching ticket info, please wait…</string>
     <string name="error_fetching_ticket_info">An error occurred while fetching the ticket information.</string>
     <string name="tickets_available">Number of tickets still available: %1$d</string>
     <string name="event_description">Description: %1$s</string>
     <string name="event_date">Date: %1$s</string>
     <string name="event_venue">Venue: %1$s</string>
+    <string name="no_events_found">Could not find any home games for this team.</string>
 
 </resources>

@@ -18,6 +18,7 @@
       },
       "properties": {
         "TeamName": "Arizona Cardinals",
+        "StadiumName": "University of Phoenix Stadium",
         "City": "Glendale",
         "State": "Arizona",
         "Conference": "NFC",
@@ -54,6 +55,7 @@
       },
       "properties": {
         "TeamName": "Atlanta Falcons",
+        "StadiumName": "Georgia Dome",
         "City": "Atlanta",
         "State": "Georgia",
         "Conference": "NFC",
@@ -90,6 +92,7 @@
       },
       "properties": {
         "TeamName": "Baltimore Ravens",
+        "StadiumName": "M&T Bank Stadium",
         "City": "Baltimore",
         "State": "Maryland",
         "Conference": "AFC",
@@ -126,6 +129,7 @@
       },
       "properties": {
         "TeamName": "Buffalo Bills",
+        "StadiumName": "Ralph Wilson Stadium",
         "City": "Buffalo",
         "State": "New York",
         "Conference": "AFC",
@@ -162,6 +166,7 @@
       },
       "properties": {
         "TeamName": "Carolina Panthers",
+        "StadiumName": "Bank of America Stadium",
         "City": "Charlotte",
         "State": "North Carolina",
         "Conference": "NFC",
@@ -198,6 +203,7 @@
       },
       "properties": {
         "TeamName": "Chicago Bears",
+        "StadiumName": "Soldier Field",
         "City": "Chicago",
         "State": "Illinois",
         "Conference": "NFC",
@@ -234,6 +240,7 @@
       },
       "properties": {
         "TeamName": "Cincinnati Bengals",
+        "StadiumName": "Paul Brown Stadium",
         "City": "Cincinnati",
         "State": "Ohio",
         "Conference": "AFC",
@@ -270,6 +277,7 @@
       },
       "properties": {
         "TeamName": "Cleveland Browns",
+        "StadiumName": "FirstEnergy Stadium",
         "City": "Cleveland",
         "State": "Ohio",
         "Conference": "AFC",
@@ -306,6 +314,7 @@
       },
       "properties": {
         "TeamName": "Dallas Cowboys",
+        "StadiumName": "AT&T Stadium",
         "City": "Dallas",
         "State": "Texas",
         "Conference": "NFC",
@@ -342,6 +351,7 @@
       },
       "properties": {
         "TeamName": "Denver Broncos",
+        "StadiumName": "Sports Authority Field at Mile High",
         "City": "Denver",
         "State": "Colorado",
         "Conference": "AFC",
@@ -378,6 +388,7 @@
       },
       "properties": {
         "TeamName": "Detroit Lions",
+        "StadiumName": "Ford Field",
         "City": "Detroit",
         "State": "Michigan",
         "Conference": "NFC",
@@ -414,6 +425,7 @@
       },
       "properties": {
         "TeamName": "Green Bay Packers",
+        "StadiumName": "Lambeau Field",
         "City": "Green Bay",
         "State": "Wisconsin",
         "Conference": "NFC",
@@ -450,6 +462,7 @@
       },
       "properties": {
         "TeamName": "Houston Texans",
+        "StadiumName": "NRG Stadium",
         "City": "Houston",
         "State": "Texas",
         "Conference": "AFC",
@@ -486,6 +499,7 @@
       },
       "properties": {
         "TeamName": "Indianapolis Colts",
+        "StadiumName": "Lucas Oil Stadium",
         "City": "Indianapolis",
         "State": "Indiana",
         "Conference": "AFC",
@@ -522,6 +536,7 @@
       },
       "properties": {
         "TeamName": "Jacksonville Jaguars",
+        "StadiumName": "EverBank Field",
         "City": "Jacksonville",
         "State": "Florida",
         "Conference": "AFC",
@@ -558,6 +573,7 @@
       },
       "properties": {
         "TeamName": "Kansas City Chiefs",
+        "StadiumName": "Arrowhead Stadium",
         "City": "Kansas City",
         "State": "Missouri",
         "Conference": "AFC",
@@ -594,6 +610,7 @@
       },
       "properties": {
         "TeamName": "Miami Dolphins",
+        "StadiumName": "Sun Life Stadium",
         "City": "Miami",
         "State": "Florida",
         "Conference": "AFC",
@@ -630,6 +647,7 @@
       },
       "properties": {
         "TeamName": "Minnesota Vikings",
+        "StadiumName": "TCF Bank Stadium",
         "City": "Minneapolis",
         "State": "Minnesota",
         "Conference": "NFC",
@@ -666,6 +684,7 @@
       },
       "properties": {
         "TeamName": "New England Patriots",
+        "StadiumName": "Gillette Stadium",
         "City": "BOSTON",
         "State": "MA",
         "Conference": "AFC",
@@ -702,6 +721,7 @@
       },
       "properties": {
         "TeamName": "New Orleans Saints",
+        "StadiumName": "Mercedes-Benz Superdome",
         "City": "New Orleans",
         "State": "Louisiana",
         "Conference": "NFC",
@@ -738,6 +758,7 @@
       },
       "properties": {
         "TeamName": "New York Giants",
+        "StadiumName": "MetLife Stadium",
         "City": "East Rutherford",
         "State": "New Jersey",
         "Conference": "NFC",
@@ -774,6 +795,7 @@
       },
       "properties": {
         "TeamName": "New York Jets",
+        "StadiumName": "MetLife Stadium",
         "City": "East Rutherford",
         "State": "New Jersey",
         "Conference": "AFC",
@@ -810,6 +832,7 @@
       },
       "properties": {
         "TeamName": "Oakland Raiders",
+        "StadiumName": "O.co Coliseum",
         "City": "Oakland",
         "State": "California",
         "Conference": "AFC",
@@ -846,6 +869,7 @@
       },
       "properties": {
         "TeamName": "Philadelphia Eagles",
+        "StadiumName": "Lincoln Financial Field",
         "City": "Philadelphia",
         "State": "Pennsylvania",
         "Conference": "NFC",
@@ -882,6 +906,7 @@
       },
       "properties": {
         "TeamName": "Pittsburgh Steelers",
+        "StadiumName": "Heinz Field",
         "City": "Pittsburgh",
         "State": "Pennsylvania",
         "Conference": "AFC",
@@ -918,6 +943,7 @@
       },
       "properties": {
         "TeamName": "San Diego Chargers",
+        "StadiumName": "Qualcomm Stadium",
         "City": "San Diego",
         "State": "California",
         "Conference": "AFC",
@@ -954,6 +980,7 @@
       },
       "properties": {
         "TeamName": "San Francisco 49ers",
+        "StadiumName": "Levi's Stadium",
         "City": "San Francisco",
         "State": "California",
         "Conference": "NFC",
@@ -990,6 +1017,7 @@
       },
       "properties": {
         "TeamName": "Seattle Seahawks",
+        "StadiumName": "CenturyLink Field",
         "City": "Renton",
         "State": "Washington",
         "Conference": "NFC",
@@ -1026,6 +1054,7 @@
       },
       "properties": {
         "TeamName": "St. Louis Rams",
+        "StadiumName": "Edward Jones Dome",
         "City": "St. Louis",
         "State": "Missouri",
         "Conference": "NFC",
@@ -1062,6 +1091,7 @@
       },
       "properties": {
         "TeamName": "Tampa Bay Buccaneers",
+        "StadiumName": "Raymond James Stadium",
         "City": "TAMPA",
         "State": "FL",
         "Conference": "NFC",
@@ -1098,6 +1128,7 @@
       },
       "properties": {
         "TeamName": "Tennessee Titans",
+        "StadiumName": "LP Field",
         "City": "Nashville",
         "State": "Tennessee",
         "Conference": "AFC",
@@ -1135,6 +1166,7 @@
       "properties": {
         "ARC_State": "Maryland",
         "TeamName": "Washington Redskins",
+        "StadiumName": "FedExField",
         "City": "College Park",
         "State": "MD",
         "Conference": "NFC",

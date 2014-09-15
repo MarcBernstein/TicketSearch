@@ -23,14 +23,9 @@ import com.google.common.collect.HashBiMap;
 
 import info.marcbernstein.ticketsearch.data.geojson.model.Feature;
 import info.marcbernstein.ticketsearch.data.geojson.model.FeatureCollection;
-import info.marcbernstein.ticketsearch.data.stubhub.StubHubClient;
-import info.marcbernstein.ticketsearch.data.stubhub.model.StubHubResponse;
 import info.marcbernstein.ticketsearch.ui.TeamFragment;
 import info.marcbernstein.ticketsearch.util.GeoJsonUtils;
 import info.marcbernstein.ticketsearch.util.UiUtils;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 
 public class StadiumsMapActivity extends FragmentActivity
     implements GoogleMap.OnMarkerClickListener, TeamFragment.OnFragmentInteractionListener {
@@ -149,7 +144,7 @@ public class StadiumsMapActivity extends FragmentActivity
     String title;
     for (Feature feature : mFeatureCollection.getFeatures()) {
       location = new LatLng(feature.getGeometry().getLatitude(), feature.getGeometry().getLongitude());
-      title = feature.getTitle();
+      title = feature.getTeamName();
       Marker stadiumMarker = mMap.addMarker(new MarkerOptions().position(location).title(title).icon(symbol));
       mMapMarkers.put(feature, stadiumMarker);
     }
@@ -158,7 +153,7 @@ public class StadiumsMapActivity extends FragmentActivity
   @Override
   public boolean onMarkerClick(Marker marker) {
     // TODO implement
-    // Toast.makeText(this, marker.getTitle(), Toast.LENGTH_SHORT).show();
+    // Toast.makeText(this, marker.getTeamName(), Toast.LENGTH_SHORT).show();
     // marker.showInfoWindow();
     // mMap.animateCamera(CameraUpdateFactory.newLatLng(marker.getPosition()));
     return false;

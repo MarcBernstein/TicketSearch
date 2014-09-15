@@ -1,16 +1,21 @@
 package info.marcbernstein.ticketsearch.data.stubhub.model;
 
+import android.text.TextUtils;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Collections;
 import java.util.List;
 
+import info.marcbernstein.ticketsearch.data.geojson.model.Feature;
 import info.marcbernstein.ticketsearch.util.UiUtils;
 
 @SuppressWarnings("unused") // Gson does in fact use these
 public class StubHubResponse {
 
   private Response response;
+
+  private Feature team;
 
   private static class Response {
     private int numFound = -1;
@@ -31,6 +36,8 @@ public class StubHubResponse {
 
   public static class Event implements Comparable<Event> {
     private static final String STUBHUB_BASE_URL = "http://www.stubhub.com/";
+
+    private static final String[] DESCRIPTION_SCRUB_LIST = {"Tickets"};
 
     private String event_id;
     private String description;
@@ -65,7 +72,17 @@ public class StubHubResponse {
     }
 
     public void postProcess() {
+      // Save the event date as epocj time
       utcSeconds = UiUtils.getDateTimeAsEpoch(this);
+
+      // Remove constant strings from the description if found
+      if (!TextUtils.isEmpty(description)) {
+        for (String scrubStr : DESCRIPTION_SCRUB_LIST) {
+          if (description.contains(scrubStr)) {
+            description = description.replace(scrubStr, "");
+          }
+        }
+      }
     }
 
     @Override
@@ -90,5 +107,13 @@ public class StubHubResponse {
 
   public Event getNextEvent() {
     return response != null ? response.nextEvent : null;
+  }
+
+  public void setTeam(Feature feature) {
+    team = feature;
+  }
+
+  public Feature getTeam() {
+    return team;
   }
 }

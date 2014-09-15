@@ -163,7 +163,7 @@ public class TeamFragment extends DialogFragment implements AdapterView.OnItemCl
       // For a more complex view, normally I'd use a ViewHolder here.
       if (view instanceof TextView) {
         TextView textView = (TextView) view;
-        textView.setText(team.getTitle());
+        textView.setText(team.getTeamName());
         textView.setTag(team);
       }
 

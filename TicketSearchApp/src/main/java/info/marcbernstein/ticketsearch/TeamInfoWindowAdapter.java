@@ -61,7 +61,14 @@ public class TeamInfoWindowAdapter implements GoogleMap.InfoWindowAdapter, Googl
     StubHubResponse stubHubResponse = mResponseMap.get(team);
     if (stubHubResponse != null) {
       fetchTicketInfoContainer.setVisibility(View.GONE);
-      bindStubHubResponseToView(stubHubResponse, view.findViewById(R.id.ticket_info_container));
+
+      Event nextEvent = stubHubResponse.getNextEvent();
+      if (nextEvent != null) {
+        bindEventDataToView(nextEvent, view.findViewById(R.id.ticket_info_container));
+      } else {
+        // Handle the situation where there are no more home games, or the API failed on us
+        view.findViewById(R.id.no_events_found_text_view).setVisibility(View.VISIBLE);
+      }
     } else {
       startFetchTicketInfo(marker, team, fetchTicketInfoContainer);
     }
@@ -72,17 +79,15 @@ public class TeamInfoWindowAdapter implements GoogleMap.InfoWindowAdapter, Googl
   private void bindDataToView(View view, Feature team) {
     View teamNameView = view.findViewById(R.id.team_name_text_view);
     if (teamNameView instanceof TextView) {
-      ((TextView) teamNameView).setText(team.getTitle());
+      ((TextView) teamNameView).setText(team.getTeamName());
     }
   }
 
-  private void bindStubHubResponseToView(StubHubResponse stubHubResponse, View ticketInfoContainer) {
-    if (stubHubResponse == null || stubHubResponse.getEvents() == null) {
-      Log.w(TAG, "Null response from StubHub API call.");
+  private void bindEventDataToView(Event nextEvent, View ticketInfoContainer) {
+    if (nextEvent == null) {
+      Log.w(TAG, "No future event was returned from the StubHub API call.");
       return;
     }
-
-    Event nextEvent = stubHubResponse.getNextEvent();
 
     View ticketsAvailableTextView = ticketInfoContainer.findViewById(R.id.tickets_available_text_view);
     if (ticketsAvailableTextView instanceof TextView) {
@@ -98,8 +103,8 @@ public class TeamInfoWindowAdapter implements GoogleMap.InfoWindowAdapter, Googl
 
     View eventDateTextView = ticketInfoContainer.findViewById(R.id.event_date_text_view);
     if (ticketsAvailableTextView instanceof TextView) {
-      ((TextView) eventDateTextView).setText(mContext.getString(R.string.event_date, UiUtils.getDateTimeString(
-          nextEvent)));
+      ((TextView) eventDateTextView)
+          .setText(mContext.getString(R.string.event_date, UiUtils.getDateTimeString(nextEvent)));
     }
 
     View venueNameTextView = ticketInfoContainer.findViewById(R.id.venue_name_text_view);
@@ -111,8 +116,15 @@ public class TeamInfoWindowAdapter implements GoogleMap.InfoWindowAdapter, Googl
   }
 
   private void startFetchTicketInfo(final Marker marker, final Feature team, final View fetchTicketInfoContainer) {
+    String teamName = team.getTeamName();
+
+    // StubHub API needs to have any . chars removed. Le sigh...
+    if (teamName != null && teamName.contains(".")) {
+      teamName = teamName.replace(".", "");
+    }
+
     StubHubClient
-        .searchEvents(mContext.getString(R.string.stubhub_query, team.getTitle()), new Callback<StubHubResponse>() {
+        .searchEvents(mContext.getString(R.string.stubhub_query, teamName), team, new Callback<StubHubResponse>() {
           @Override
           public void success(StubHubResponse stubHubResponse, Response response) {
             Log.d(TAG, "# of events found: " + stubHubResponse.getNumFound());

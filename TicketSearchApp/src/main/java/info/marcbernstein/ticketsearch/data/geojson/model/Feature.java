@@ -9,7 +9,9 @@ import java.util.Map;
 @SuppressWarnings("unused") // Gson object class
 public class Feature implements Serializable {
 
-  private static final String TITLE_PROPERTY = "TeamName";
+  private static final String TEAM_NAME_PROPERTY = "TeamName";
+
+  private static final String STADIUM_NAME_PROPERTY = "StadiumName";
 
   private Geometry geometry;
 
@@ -20,8 +22,13 @@ public class Feature implements Serializable {
     return geometry;
   }
 
-  public String getTitle() {
-    Object value = properties.get(TITLE_PROPERTY);
+  public String getTeamName() {
+    Object value = properties.get(TEAM_NAME_PROPERTY);
+    return value instanceof String ? value.toString() : "";
+  }
+
+  public String getStadiumName() {
+    Object value = properties.get(STADIUM_NAME_PROPERTY);
     return value instanceof String ? value.toString() : "";
   }
 

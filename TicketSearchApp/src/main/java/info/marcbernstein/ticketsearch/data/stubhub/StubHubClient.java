@@ -10,6 +10,7 @@ import java.util.Collections;
 import java.util.List;
 
 import info.marcbernstein.ticketsearch.BuildConfig;
+import info.marcbernstein.ticketsearch.data.geojson.model.Feature;
 import info.marcbernstein.ticketsearch.data.stubhub.model.StubHubResponse;
 import retrofit.Callback;
 import retrofit.RequestInterceptor;
@@ -64,13 +65,14 @@ public class StubHubClient {
    * Listing Catalog Service</a> for more info.
    *
    * @param query    The query to pass to the listingCatalog API
+   * @param team     The team being searched for
    * @param callback The callback to get the results from
    */
-  public static void searchEvents(String query, final Callback<StubHubResponse> callback) {
+  public static void searchEvents(String query, final Feature team, final Callback<StubHubResponse> callback) {
     sService.searchEvents(query, new Callback<StubHubResponse>() {
       @Override
       public void success(StubHubResponse stubHubResponse, Response response) {
-        postProcess(stubHubResponse);
+        postProcess(stubHubResponse, team);
 
         if (callback != null) {
           callback.success(stubHubResponse, response);
@@ -87,16 +89,17 @@ public class StubHubClient {
   }
 
   /**
-   * Sync version of {@link #searchEvents(String, retrofit.Callback)}. Must not be called on the main (UI) thread.
+   * Sync version of {@link #searchEvents(String, Feature, retrofit.Callback)}. Must not be called on the main (UI) thread.
    *
    * @param query The query to pass to the listingCatalog API
+   * @param team The team being searched for
    * @return The response from the API call
    */
-  public static StubHubResponse searchEvents(String query) {
+  public static StubHubResponse searchEvents(String query, Feature team) {
     Preconditions
         .checkState(Looper.myLooper() != Looper.getMainLooper(), "This method cannot be run on the UI thread.");
     StubHubResponse stubHubResponse = sService.searchEvents(query);
-    postProcess(stubHubResponse);
+    postProcess(stubHubResponse, team);
     return stubHubResponse;
   }
 
@@ -104,11 +107,16 @@ public class StubHubClient {
    * Parses all events, creating an entry in the object for the next upcoming event.
    *
    * @param stubHubResponse The Response to get the Events from
+   * @param team            The team that was searched for
    */
-  private static void postProcess(StubHubResponse stubHubResponse) {
-    if (stubHubResponse == null || stubHubResponse.getEvents() == null || stubHubResponse.getEvents().isEmpty()) {
+  private static void postProcess(StubHubResponse stubHubResponse, Feature team) {
+    if (stubHubResponse == null || stubHubResponse.getEvents() == null || stubHubResponse.getEvents().isEmpty() ||
+        team == null) {
       return;
     }
+
+    stubHubResponse.setTeam(team);
+    String stadiumName = team.getStadiumName();
 
     List<StubHubResponse.Event> events = stubHubResponse.getEvents();
 
@@ -126,7 +134,14 @@ public class StubHubClient {
         continue;
       }
 
-      // First time we get here in our sorted list, it should be the next event.
+      // First time we get here in our sorted list, it should be the next event. However,
+      // we also need to check if the venue name matches the team's home stadium,
+      // as the StubHub API doesn't seem to have a way to only request home games.
+      if (stadiumName != null && !stadiumName.equals(event.getVenueName())) {
+        continue;
+      }
+
+      // If we get here, this should be the next home event.
       stubHubResponse.setNextEvent(event);
       break;
     }
