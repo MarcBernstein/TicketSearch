@@ -3,7 +3,6 @@ package info.marcbernstein.ticketsearch;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Paint;
 import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;

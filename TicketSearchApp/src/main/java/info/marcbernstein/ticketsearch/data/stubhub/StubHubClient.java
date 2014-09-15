@@ -90,10 +90,11 @@ public class StubHubClient {
   }
 
   /**
-   * Sync version of {@link #searchEvents(String, Feature, retrofit.Callback)}. Must not be called on the main (UI) thread.
+   * Sync version of {@link #searchEvents(String, Feature, retrofit.Callback)}. Must not be called on the main (UI)
+   * thread.
    *
    * @param query The query to pass to the listingCatalog API
-   * @param team The team being searched for
+   * @param team  The team being searched for
    * @return The response from the API call
    */
   public static StubHubResponse searchEvents(String query, Feature team) {
