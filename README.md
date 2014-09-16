@@ -62,5 +62,7 @@ First, connect a device to the machine where it's accessible via the adb command
 
 ### Screenshots ###
 ![](https://github.com/MarcBernstein/TicketSearch/blob/master/TicketSearchApp/img/TicketSearch01.png)
-![](https://github.com/MarcBernstein/TicketSearch/blob/master/TicketSearchApp/img/TicketSearch01.png)
-![](https://github.com/MarcBernstein/TicketSearch/blob/master/TicketSearchApp/img/TicketSearch01.png)
+![](https://github.com/MarcBernstein/TicketSearch/blob/master/TicketSearchApp/img/TicketSearch02.png)
+![](https://github.com/MarcBernstein/TicketSearch/blob/master/TicketSearchApp/img/TicketSearch03.png)
+![](https://github.com/MarcBernstein/TicketSearch/blob/master/TicketSearchApp/img/TicketSearch04.png)
+![](https://github.com/MarcBernstein/TicketSearch/blob/master/TicketSearchApp/img/TicketSearch05.png)
