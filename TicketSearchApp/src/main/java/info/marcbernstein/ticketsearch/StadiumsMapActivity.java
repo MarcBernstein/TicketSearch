@@ -1,6 +1,7 @@
 package info.marcbernstein.ticketsearch;
 
 import android.app.DialogFragment;
+import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
@@ -103,7 +104,10 @@ public class StadiumsMapActivity extends FragmentActivity implements TeamFragmen
     if (!UiUtils.isMultiPanel(this)) {
       teamFragment.show(getFragmentManager(), TeamFragment.TAG);
     } else {
-      getFragmentManager().beginTransaction().add(R.id.side_panel, teamFragment, TeamFragment.TAG).commit();
+      Fragment fragmentByTag = getFragmentManager().findFragmentByTag(TeamFragment.TAG);
+      if (fragmentByTag == null || !fragmentByTag.isAdded()) {
+        getFragmentManager().beginTransaction().add(R.id.side_panel, teamFragment, TeamFragment.TAG).commit();
+      }
     }
   }
 
