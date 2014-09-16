@@ -37,7 +37,7 @@ public class TeamFragment extends DialogFragment implements AdapterView.OnItemCl
    * activity.
    */
   public interface OnFragmentInteractionListener {
-    public void onFragmentInteraction(Feature feature);
+    void onFragmentInteraction(Feature feature);
   }
 
   public static final String TAG = TeamFragment.class.getSimpleName();
@@ -63,18 +63,23 @@ public class TeamFragment extends DialogFragment implements AdapterView.OnItemCl
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    // Create a new ListView that will show an entry for each team name
     ListView listView = new ListView(getActivity());
 
+    // Get the feature collection passed in as an argument to the newInstance method.
     FeatureCollection featureCollection = null;
     if (getArguments() != null) {
       featureCollection = (FeatureCollection) getArguments().getSerializable(KEY_FEATURE_COLLECTION);
     }
 
-    List<Feature> stadiums =
+    List<Feature> teams =
         featureCollection != null ? featureCollection.getFeatures() : Collections.<Feature>emptyList();
 
-    TeamAdapter adapter = new TeamAdapter(stadiums);
+    // Create a new adapter that will transform the team names into views
+    TeamAdapter adapter = new TeamAdapter(teams);
     listView.setAdapter(adapter);
+
+    // Set ourself as the item click listener so we can pass the team back to the Activity
     listView.setOnItemClickListener(this);
 
     return listView;
@@ -107,20 +112,28 @@ public class TeamFragment extends DialogFragment implements AdapterView.OnItemCl
   @Override
   public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
     Feature stadium = null;
+
+    // The clicked view should always have a tag set that corresponds to the team feature used to creat it
     if (view.getTag() instanceof Feature) {
       stadium = (Feature) view.getTag();
     }
 
+    // Pass the selected team feature back to the listening activity
     if (mListener != null) {
       mListener.onFragmentInteraction(stadium);
     }
 
+    // If we are shown in the side panel on a tablet UI, we don't want to dismiss the fragment. getShowsDialog() is
+    // set by the OS to the proper value automagically when we show the fragment.
     if (getShowsDialog()) {
       dismiss();
     }
   }
 
-  class TeamAdapter extends BaseAdapter {
+  /**
+   * Adapter class used to transform a Feature into a View.
+   */
+  private class TeamAdapter extends BaseAdapter {
 
     private final List<Feature> mTeams;
 
@@ -146,8 +159,8 @@ public class TeamFragment extends DialogFragment implements AdapterView.OnItemCl
     @Override
     public View getView(int position, View convertView, ViewGroup viewGroup) {
       View view = convertView;
-      Feature team = getItem(position);
 
+      Feature team = getItem(position);
       Preconditions.checkNotNull(team, "Could not get team feature.");
 
       if (view == null) {

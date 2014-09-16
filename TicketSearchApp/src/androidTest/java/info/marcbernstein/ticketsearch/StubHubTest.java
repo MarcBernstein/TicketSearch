@@ -7,6 +7,9 @@ import info.marcbernstein.ticketsearch.data.stubhub.StubHubClient;
 import info.marcbernstein.ticketsearch.data.stubhub.model.StubHubResponse;
 import retrofit.RetrofitError;
 
+/**
+ * Tests the remote connection to the StubHub API, and that we get a valid, parsed response back.
+ */
 public class StubHubTest extends AndroidTestCase {
 
   @LargeTest
