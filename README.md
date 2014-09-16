@@ -1,5 +1,5 @@
 ## Ticket Search ##
-Ticket Search enables you to look for available tickets for your favorite team's next game.
+Ticket Search enables you to look for available tickets for your favorite football team's next home game.
 
 ### How to build ###
 See section on [how to build](#build).
@@ -19,14 +19,14 @@ See section on [how to build](#build).
 * [Google Play Services](https://developer.android.com/google/play-services/index.html)
 
 ### Other Resources ###
-[Stadium data converted to GeoJSON from a FeatureService](http://services1.arcgis.com/oASeSX1dVztKCgUc/arcgis/rest/services/NFL_Draft_Teams/FeatureServer/0?f=pjson)
+[Stadium data converted to GeoJSON from a FeatureService](http://services1.arcgis.com/oASeSX1dVztKCgUc/arcgis/rest/services/NFL_Draft_Teams/FeatureServer/0?f=pjson)  
 [View the stadiums map](https://gist.github.com/MarcBernstein/8933d0991e94160b5947) as a GeoJSON map on GitHub
 
 <a name="build"></a>
 #### Building the app ###
 *Requirements:*  
 * Java 7 is required
-* All other Android SDK requirements (including the SDK iteself) **should** be downloaded automatically by the SDK Manager gradle plugin if they are missing.  
+* All other Android SDK requirements (including the SDK itself) **should** be downloaded automatically by the SDK Manager gradle plugin if they are missing.  
   * If there's an error that looks like:
   ```
   Could not find com.android.support:support-v4:19.1.0.
