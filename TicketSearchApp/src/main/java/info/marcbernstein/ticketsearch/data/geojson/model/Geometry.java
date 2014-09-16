@@ -11,9 +11,9 @@ import java.io.Serializable;
 @SuppressWarnings("unused") // Gson object class
 public class Geometry implements Serializable {
 
-  private static final int LATITUDE = 0;
+  private static final int LONGITUDE = 0;
 
-  private static final int LONGITUDE = 1;
+  private static final int LATITUDE = 1;
 
   @SuppressWarnings("MismatchedReadAndWriteOfArray") //Gson does write to this
   private double[] coordinates;
