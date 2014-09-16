@@ -147,7 +147,9 @@ public class StadiumsMapActivity extends FragmentActivity implements TeamFragmen
 
     // Order is important here, must setup the markers before crating the adapter with them.
     setupStadiumMarkers();
-    TeamInfoWindowAdapter adapter = new TeamInfoWindowAdapter(this, mMapMarkers);
+
+    // BiMaps are awesome!
+    TeamInfoWindowAdapter adapter = new TeamInfoWindowAdapter(this, mMapMarkers.inverse());
     mMap.setInfoWindowAdapter(adapter);
     mMap.setOnInfoWindowClickListener(adapter);
   }

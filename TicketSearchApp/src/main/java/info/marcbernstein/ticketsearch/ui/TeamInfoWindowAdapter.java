@@ -12,7 +12,6 @@ import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
-import com.google.common.collect.BiMap;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -37,15 +36,13 @@ public class TeamInfoWindowAdapter implements GoogleMap.InfoWindowAdapter, Googl
 
   private final Context mContext;
 
-  private final BiMap<Marker, Feature> mMapMarkers;
+  private final Map<Marker, Feature> mMapMarkers;
 
   private final Map<Feature, StubHubResponse> mResponseMap = new HashMap<>();
 
-  public TeamInfoWindowAdapter(Context context, BiMap<Feature, Marker> mapMarkers) {
+  public TeamInfoWindowAdapter(Context context, Map<Marker, Feature> mapMarkers) {
     mContext = context;
-
-    // BiMaps are awesome. That is all.
-    mMapMarkers = mapMarkers.inverse();
+    mMapMarkers = mapMarkers;
   }
 
   // We don't want to replace the whole window, just the contents.
