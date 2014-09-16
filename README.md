@@ -59,3 +59,8 @@ First, connect a device to the machine where it's accessible via the adb command
 1. Expand the TicketSearch folder so that the TicketSearchApp folder is visible.  
 2. Right click on the TicketSearchApp folder, got to the Run menu item, then click the `All Tests` submenu item.  
 3. If it's not already visible, open the `Run` tool window. You should see the tests running.  
+
+### Screenshots ###
+![](https://github.com/MarcBernstein/TicketSearch/blob/master/TicketSearchApp/img/TicketSearch01.png)
+![](https://github.com/MarcBernstein/TicketSearch/blob/master/TicketSearchApp/img/TicketSearch01.png)
+![](https://github.com/MarcBernstein/TicketSearch/blob/master/TicketSearchApp/img/TicketSearch01.png)
