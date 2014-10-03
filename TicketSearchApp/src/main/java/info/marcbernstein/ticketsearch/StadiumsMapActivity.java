@@ -1,14 +1,5 @@
 package info.marcbernstein.ticketsearch;
 
-import android.app.DialogFragment;
-import android.app.Fragment;
-import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -21,6 +12,15 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
+
+import android.app.DialogFragment;
+import android.app.Fragment;
+import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import info.marcbernstein.ticketsearch.data.geojson.model.Feature;
 import info.marcbernstein.ticketsearch.data.geojson.model.FeatureCollection;
