@@ -1,13 +1,5 @@
 package info.marcbernstein.ticketsearch;
 
-import android.app.DialogFragment;
-import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -21,6 +13,15 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 
+import android.app.DialogFragment;
+import android.app.Fragment;
+import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+
 import info.marcbernstein.ticketsearch.data.geojson.model.Feature;
 import info.marcbernstein.ticketsearch.data.geojson.model.FeatureCollection;
 import info.marcbernstein.ticketsearch.ui.FirstLaunchDialogFragment;
@@ -29,12 +30,17 @@ import info.marcbernstein.ticketsearch.ui.TeamInfoWindowAdapter;
 import info.marcbernstein.ticketsearch.util.GeoJsonUtils;
 import info.marcbernstein.ticketsearch.util.UiUtils;
 
-public class StadiumsMapActivity extends FragmentActivity
-    implements GoogleMap.OnMarkerClickListener, TeamFragment.OnFragmentInteractionListener {
+/**
+ * Main Activity for the Ticket Search app. Responsible for hosting the map view and also the team list when on a
+ * tablet UI.
+ */
+public class StadiumsMapActivity extends FragmentActivity implements TeamFragment.OnFragmentInteractionListener {
 
   private static final String TAG = StadiumsMapActivity.class.getSimpleName();
-  public static final int ANIM_DURATION = 500;
 
+  private static final int ANIMATION_DURATION = 500;
+
+  private static final int ZOOM_LEVEL = 12;
 
   private GoogleMap mMap; // Might be null if Google Play services APK is not available.
 
@@ -47,6 +53,7 @@ public class StadiumsMapActivity extends FragmentActivity
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_stadiums_map);
 
+    // Read and parse the local json for the stadium locations
     mFeatureCollection = GeoJsonUtils.getStadiumFeatures(this);
 
     setUpMapIfNeeded();
@@ -73,6 +80,7 @@ public class StadiumsMapActivity extends FragmentActivity
       MenuInflater inflater = getMenuInflater();
       inflater.inflate(R.menu.menu_stadiums_map, menu);
     }
+
     return true;
   }
 
@@ -87,12 +95,19 @@ public class StadiumsMapActivity extends FragmentActivity
     }
   }
 
+  /**
+   * Shows the team list fragment either as a dialog or embedded in a side panel, depending on if this is a phone or a
+   * tablet UI. Reuses the same fragment code and layout.
+   */
   private void showTeamsFragment() {
     DialogFragment teamFragment = TeamFragment.newInstance(mFeatureCollection);
     if (!UiUtils.isMultiPanel(this)) {
       teamFragment.show(getFragmentManager(), TeamFragment.TAG);
     } else {
-      getFragmentManager().beginTransaction().add(R.id.side_panel, teamFragment, TeamFragment.TAG).commit();
+      Fragment fragmentByTag = getFragmentManager().findFragmentByTag(TeamFragment.TAG);
+      if (fragmentByTag == null || !fragmentByTag.isAdded()) {
+        getFragmentManager().beginTransaction().add(R.id.side_panel, teamFragment, TeamFragment.TAG).commit();
+      }
     }
   }
 
@@ -129,21 +144,26 @@ public class StadiumsMapActivity extends FragmentActivity
   private void setUpMap() {
     mMap.getUiSettings().setZoomControlsEnabled(false);
     mMap.setMyLocationEnabled(true);
-    mMap.setOnMarkerClickListener(this);
 
     // Order is important here, must setup the markers before crating the adapter with them.
     setupStadiumMarkers();
-    TeamInfoWindowAdapter adapter = new TeamInfoWindowAdapter(this, mMapMarkers);
+
+    // BiMaps are awesome!
+    TeamInfoWindowAdapter adapter = new TeamInfoWindowAdapter(this, mMapMarkers.inverse());
     mMap.setInfoWindowAdapter(adapter);
     mMap.setOnInfoWindowClickListener(adapter);
   }
 
+  /**
+   * Creates and adds Marker symbol for each team's stadium to the map.
+   */
   private void setupStadiumMarkers() {
     if (mFeatureCollection == null || mFeatureCollection.getFeatures() == null) {
       Log.w(TAG, "Feature Collection is empty, cannot add stadium markers.");
       return;
     }
 
+    // Use of a BiMap lets us treat either the team or it's marker as a key.
     mMapMarkers = HashBiMap.create(mFeatureCollection.getFeatures().size());
 
     BitmapDescriptor symbol = BitmapDescriptorFactory.fromResource(R.drawable.football_marker);
@@ -157,32 +177,31 @@ public class StadiumsMapActivity extends FragmentActivity
     }
   }
 
+  /**
+   * Activity implements this interface so that we can get notified when the user selects a team in the TeamFragment
+   * list view, and take an approriate action.
+   *
+   * @param team The team the user selected
+   */
   @Override
-  public boolean onMarkerClick(Marker marker) {
-    // TODO implement
-    // Toast.makeText(this, marker.getTeamName(), Toast.LENGTH_SHORT).show();
-    // marker.showInfoWindow();
-    // mMap.animateCamera(CameraUpdateFactory.newLatLng(marker.getPosition()));
-    return false;
-  }
-
-  @Override
-  public void onFragmentInteraction(Feature feature) {
-    if (feature == null) {
+  public void onFragmentInteraction(Feature team) {
+    if (team == null) {
       Log.w(TAG, "No Feature to zoom to.");
       return;
     }
 
-    final Marker stadiumMarker = mMapMarkers.get(feature);
+    final Marker stadiumMarker = mMapMarkers.get(team);
     if (stadiumMarker == null) {
       Log.w(TAG, "Could not find stadium marker to zoom to.");
       return;
     }
 
-    CameraUpdate update = CameraUpdateFactory.newLatLngZoom(stadiumMarker.getPosition(), 12);
-    mMap.animateCamera(update, ANIM_DURATION, new GoogleMap.CancelableCallback() {
+    // Animate a map extent change + zoom in to the team's stadium location
+    CameraUpdate update = CameraUpdateFactory.newLatLngZoom(stadiumMarker.getPosition(), ZOOM_LEVEL);
+    mMap.animateCamera(update, ANIMATION_DURATION, new GoogleMap.CancelableCallback() {
       @Override
       public void onFinish() {
+        // Once we've panned and zoomed, show the info window as if the user had clicked on the marker symbol
         if (!stadiumMarker.isInfoWindowShown()) {
           stadiumMarker.showInfoWindow();
         }

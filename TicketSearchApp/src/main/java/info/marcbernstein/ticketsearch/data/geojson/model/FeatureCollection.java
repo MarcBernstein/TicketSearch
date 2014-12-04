@@ -7,15 +7,33 @@ import com.google.gson.Gson;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * Object that represents a GeoJSON feature collection.
+ */
 @SuppressWarnings("unused") // Gson does in fact use these
 public class FeatureCollection implements Serializable {
 
+  private List<Feature> features;
+
+  // Private ctor to disable direct instantiation. Use the static fromJson method instead.
+  private FeatureCollection() {
+  }
+
+  /**
+   * Factory method to turn a JSON string into a GeoJSON feature collection.
+   *
+   * @param json The GeoJSON as a String
+   * @return a FeatureCollection parsed from the provided JSON
+   */
   public static FeatureCollection fromJson(String json) {
     return new Gson().fromJson(json, FeatureCollection.class);
   }
 
-  private List<Feature> features;
-
+  /**
+   * Returns a list of all the features found in the GeoJSON
+   *
+   * @return list of all features
+   */
   public List<Feature> getFeatures() {
     return features;
   }
@@ -31,7 +49,7 @@ public class FeatureCollection implements Serializable {
     }
 
     FeatureCollection that = (FeatureCollection) o;
-    return Objects.equal(this.features, that.features);
+    return Objects.equal(features, that.features);
   }
 
   @Override

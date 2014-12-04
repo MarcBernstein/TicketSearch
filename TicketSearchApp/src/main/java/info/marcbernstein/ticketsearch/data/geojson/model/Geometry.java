@@ -5,19 +5,28 @@ import com.google.common.base.Objects;
 
 import java.io.Serializable;
 
+/**
+ * Object that represents a GeoJSON geometry.
+ */
 @SuppressWarnings("unused") // Gson object class
 public class Geometry implements Serializable {
 
-  private static final int LATITUDE = 0;
+  private static final int LONGITUDE = 0;
 
-  private static final int LONGITUDE = 1;
+  private static final int LATITUDE = 1;
 
+  @SuppressWarnings("MismatchedReadAndWriteOfArray") //Gson does write to this
   private double[] coordinates;
 
-  public double[] getCoordinates() {
-    return coordinates;
+  // Private ctor to disable direct instantiation.
+  private Geometry() {
   }
 
+  /**
+   * Returns the longitude component of this geometry
+   *
+   * @return the longitude component of this geometry
+   */
   public double getLongitude() {
     double longitude = Double.NaN;
 
@@ -28,6 +37,11 @@ public class Geometry implements Serializable {
     return longitude;
   }
 
+  /**
+   * Returns the latitude component of this geometry
+   *
+   * @return the latitude component of this geometry
+   */
   public double getLatitude() {
     double longitude = Double.NaN;
 
@@ -49,8 +63,8 @@ public class Geometry implements Serializable {
     }
 
     Geometry that = (Geometry) o;
-    return Objects.equal(this.getLatitude(), that.getLatitude()) &&
-        Objects.equal(this.getLongitude(), that.getLongitude());
+    return Objects.equal(getLatitude(), that.getLatitude()) &&
+        Objects.equal(getLongitude(), that.getLongitude());
   }
 
   @Override

@@ -10,6 +10,9 @@ import info.marcbernstein.ticketsearch.data.geojson.model.Feature;
 import info.marcbernstein.ticketsearch.data.geojson.model.FeatureCollection;
 import info.marcbernstein.ticketsearch.util.GeoJsonUtils;
 
+/**
+ * Tests that the geojson file can be read and parsed properly.
+ */
 public class GeoJSONTest extends AndroidTestCase {
 
   private FeatureCollection mFeatureCollection;

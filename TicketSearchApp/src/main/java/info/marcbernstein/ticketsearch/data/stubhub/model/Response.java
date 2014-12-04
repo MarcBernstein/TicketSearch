@@ -7,21 +7,38 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * Class used to represent a Response from the StubHub API. The response holds the events returned from the request.
+ */
 @SuppressWarnings("unused") // Gson does in fact use these
 public class Response implements Serializable {
 
   @SuppressWarnings("FieldCanBeLocal") // Inspections get confused by Gson
-      int numFound = -1;
+  int numFound = -1;
 
   @SerializedName("docs")
   List<Event> events;
 
   Event nextEvent;
 
+  // Private ctor to disable direct instantiation.
+  private Response() {
+  }
+
+  /**
+   * Returns the number of events found in the response
+   *
+   * @return the number of events found in the response
+   */
   int getNumFound() {
     return numFound;
   }
 
+  /**
+   * Returns the list of all events found in the response
+   *
+   * @return the list of all events found in the response
+   */
   List<Event> getEvents() {
     return events;
   }
@@ -37,9 +54,9 @@ public class Response implements Serializable {
 
     Response that = (Response) o;
 
-    return Objects.equal(this.numFound, that.numFound) &&
-        Objects.equal(this.events, that.events) &&
-        Objects.equal(this.nextEvent, that.nextEvent);
+    return Objects.equal(numFound, that.numFound) &&
+        Objects.equal(events, that.events) &&
+        Objects.equal(nextEvent, that.nextEvent);
   }
 
   @Override

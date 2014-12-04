@@ -21,7 +21,10 @@ import retrofit.client.Response;
 import retrofit.http.GET;
 import retrofit.http.Query;
 
-public class StubHubClient {
+/**
+ * Class used to initiate requests and receive responses from the StubHub API.
+ */
+public final class StubHubClient {
 
   private static final String API_URL = "http://www.stubhub.com";
 
@@ -31,16 +34,20 @@ public class StubHubClient {
    */
   private static final String APP_TOKEN = "ggmgN2D2lglFKwkYwCRZM7CSSHca";
 
+  // Path and constant param portion of the StubHIB API call to the events listing catalog
+  private static final String LIST_CATALOG_PATH =
+      "/listingCatalog/select?wt=json&fl=event_id,description,event_date_time_local,venue_name,totalTickets,urlpath";
+
   public interface StubHubService {
-
-    final static String LIST_CATALOG_PATH =
-        "/listingCatalog/select?wt=json&fl=event_id,description,event_date_time_local,venue_name,totalTickets,urlpath";
-
     @GET(LIST_CATALOG_PATH)
     void searchEvents(@Query("q") String query, Callback<StubHubResponse> callback);
 
     @GET(LIST_CATALOG_PATH)
     StubHubResponse searchEvents(@Query("q") String query);
+  }
+
+  // Private ctor to disable direct instantiation.
+  private StubHubClient() {
   }
 
   /**
@@ -73,6 +80,7 @@ public class StubHubClient {
     sService.searchEvents(query, new Callback<StubHubResponse>() {
       @Override
       public void success(StubHubResponse stubHubResponse, Response response) {
+        // First, post process the response before handin it off to the caller
         postProcess(stubHubResponse, team);
 
         if (callback != null) {
@@ -99,14 +107,18 @@ public class StubHubClient {
    */
   public static StubHubResponse searchEvents(String query, Feature team) {
     Preconditions
-        .checkState(Looper.myLooper() != Looper.getMainLooper(), "This method cannot be run on the UI thread.");
+        .checkState(!Looper.myLooper().equals(Looper.getMainLooper()), "This method cannot be run on the UI thread.");
+
     StubHubResponse stubHubResponse = sService.searchEvents(query);
+
+    // First, post process the response before handin it off to the caller
     postProcess(stubHubResponse, team);
+
     return stubHubResponse;
   }
 
   /**
-   * Parses all events, creating an entry in the object for the next upcoming event.
+   * Processes all events, creating an entry in the object for the next upcoming event.
    *
    * @param stubHubResponse The Response to get the Events from
    * @param team            The team that was searched for
@@ -117,6 +129,7 @@ public class StubHubClient {
       return;
     }
 
+    // Sets the team directly in the response for use by the calling code
     stubHubResponse.setTeam(team);
     String stadiumName = team.getStadiumName();
 
@@ -127,11 +140,13 @@ public class StubHubClient {
       event.postProcess();
     }
 
+    // Sort by the comparator implemented in the Event class. Sorts by oldest to newest events by date/time.
     Collections.sort(events);
 
+    // Try to find the next home game to set it as the 'next event' memeber in the response
     Instant now = Instant.now();
     for (Event event : events) {
-      // Ignore events in the past
+      // Next, we want to filter out any events in the past
       if (now.isAfter(event.getEventDateAsUtcSeconds())) {
         continue;
       }
