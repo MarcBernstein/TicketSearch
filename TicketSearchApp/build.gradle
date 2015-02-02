@@ -6,7 +6,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 21
-    buildToolsVersion "21.1.1"
+    buildToolsVersion "21.1.2"
 
     defaultConfig {
         applicationId "info.marcbernstein.ticketsearch"
@@ -33,12 +33,14 @@ android {
     }
 }
 
+apply plugin: 'com.github.ben-manes.versions'
+
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'org.jetbrains:annotations:13.0'
-    compile 'joda-time:joda-time:2.4'
-    compile 'com.squareup.retrofit:retrofit:1.6.1'
+    compile 'joda-time:joda-time:2.7'
+    compile 'com.squareup.retrofit:retrofit:1.9.0'
     compile 'com.google.guava:guava:18.0'
-    compile 'com.google.code.gson:gson:2.3'
-    compile 'com.google.android.gms:play-services:6.1.71'
+    compile 'com.google.code.gson:gson:2.3.1'
+    compile 'com.google.android.gms:play-services:6.5.87'
 }
