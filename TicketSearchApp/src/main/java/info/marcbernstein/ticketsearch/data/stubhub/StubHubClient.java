@@ -20,6 +20,9 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import retrofit.http.GET;
 import retrofit.http.Query;
+import rx.Observable;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
 /**
  * Class used to initiate requests and receive responses from the StubHub API.
@@ -37,19 +40,6 @@ public final class StubHubClient {
   // Path and constant param portion of the StubHIB API call to the events listing catalog
   private static final String LIST_CATALOG_PATH =
       "/listingCatalog/select?wt=json&fl=event_id,description,event_date_time_local,venue_name,totalTickets,urlpath";
-
-  public interface StubHubService {
-    @GET(LIST_CATALOG_PATH)
-    void searchEvents(@Query("q") String query, Callback<StubHubResponse> callback);
-
-    @GET(LIST_CATALOG_PATH)
-    StubHubResponse searchEvents(@Query("q") String query);
-  }
-
-  // Private ctor to disable direct instantiation.
-  private StubHubClient() {
-  }
-
   /**
    * Add our StubHub API app token to every request. *
    */
@@ -59,13 +49,15 @@ public final class StubHubClient {
       request.addHeader("Authorization", String.format("Bearer %s", APP_TOKEN));
     }
   };
-
   private static final RestAdapter sRestAdapter =
       new RestAdapter.Builder().setEndpoint(API_URL).setRequestInterceptor(sRequestInterceptor)
           // If this is a debug build, show the full Retrofit response. Otherwise no logging.
           .setLogLevel(BuildConfig.DEBUG ? RestAdapter.LogLevel.FULL : RestAdapter.LogLevel.NONE).build();
-
   private static final StubHubService sService = sRestAdapter.create(StubHubService.class);
+
+  // Private ctor to disable direct instantiation.
+  private StubHubClient() {
+  }
 
   /**
    * Query (asynchronously) the StubHub API to search for events matching the query. See <a href="http://stubhubapi
@@ -117,6 +109,17 @@ public final class StubHubClient {
     return stubHubResponse;
   }
 
+  public static Observable<StubHubResponse> searchEventsRx(String query, final Feature team) {
+    return sService.searchEventsRx(query)
+                   .subscribeOn(Schedulers.io())
+                   .doOnNext(new Action1<StubHubResponse>() {
+                     @Override
+                     public void call(StubHubResponse stubHubResponse) {
+                       postProcess(stubHubResponse, team);
+                     }
+                   });
+  }
+
   /**
    * Processes all events, creating an entry in the object for the next upcoming event.
    *
@@ -162,5 +165,16 @@ public final class StubHubClient {
       stubHubResponse.setNextEvent(event);
       break;
     }
+  }
+
+  public interface StubHubService {
+    @GET(LIST_CATALOG_PATH)
+    void searchEvents(@Query("q") String query, Callback<StubHubResponse> callback);
+
+    @GET(LIST_CATALOG_PATH)
+    StubHubResponse searchEvents(@Query("q") String query);
+
+    @GET(LIST_CATALOG_PATH)
+    Observable<StubHubResponse> searchEventsRx(@Query("q") String query);
   }
 }

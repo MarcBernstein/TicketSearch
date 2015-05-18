@@ -22,9 +22,8 @@ import info.marcbernstein.ticketsearch.data.stubhub.StubHubClient;
 import info.marcbernstein.ticketsearch.data.stubhub.model.Event;
 import info.marcbernstein.ticketsearch.data.stubhub.model.StubHubResponse;
 import info.marcbernstein.ticketsearch.util.UiUtils;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
 
 /**
  * Adapter class used to show an info window on the Google Map. Transforms a team feature's properties into an info
@@ -153,26 +152,35 @@ public class TeamInfoWindowAdapter implements GoogleMap.InfoWindowAdapter, Googl
     }
 
     StubHubClient
-        .searchEvents(mContext.getString(R.string.stubhub_query, teamName), team, new Callback<StubHubResponse>() {
+        .searchEventsRx(mContext.getString(R.string.stubhub_query, teamName), team)
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(new Subscriber<StubHubResponse>() {
           @Override
-          public void success(StubHubResponse stubHubResponse, Response response) {
-            // Put the response in the mapping and call show info window again. This team the cached response will be
-            // retrieved from the map and used instead of calling to searchEvents again. This is not really optimal
-            // but necessary given the limited access from the Google Maps API to refresh the info window.
+          public void onNext(StubHubResponse stubHubResponse) {
+            // Put the response in the mapping and call show info window again. This team the cached
+            // response will be retrieved from the map and used instead of calling to searchEvents
+            // again. This is not really optimal but necessary given the limited access from the
+            // Google Maps API to refresh the info window.
             mResponseMap.put(team, stubHubResponse);
             marker.showInfoWindow();
           }
 
           @Override
-          public void failure(RetrofitError error) {
-            Log.e(TAG, "Error: ", error);
+          public void onError(Throwable e) {
+            Log.e(TAG, "Error: ", e);
 
             hideFetchingTicketsContainer();
 
-            // If the request failed, notify the user via a Toast message and store an empty response in the mapping.
+            // If the request failed, notify the user via a Toast message and store an empty response in the
+            // mapping.
             Toast.makeText(mContext, R.string.error_fetching_ticket_info, Toast.LENGTH_LONG).show();
             mResponseMap.put(team, StubHubResponse.createEmptyResponse());
             marker.showInfoWindow();
+          }
+
+          @Override
+          public void onCompleted() {
+            // Nothing
           }
 
           private void hideFetchingTicketsContainer() {
