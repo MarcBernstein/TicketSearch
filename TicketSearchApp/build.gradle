@@ -1,6 +1,8 @@
 // Automatically downloads missing Android SDK components.
 // See https://github.com/JakeWharton/sdk-manager-plugin
 apply plugin: 'android-sdk-manager'
+apply plugin: 'android'
+apply plugin: 'kotlin-android'
 
 apply plugin: 'com.android.application'
 
@@ -37,6 +39,9 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_7
         targetCompatibility JavaVersion.VERSION_1_7
     }
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
 }
 
 dependencies {
@@ -49,4 +54,18 @@ dependencies {
     compile 'com.google.android.gms:play-services-maps:7.3.0'
     compile 'io.reactivex:rxjava:1.0.10'
     compile 'io.reactivex:rxandroid:0.24.0'
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+}
+
+buildscript {
+    ext.kotlin_version = '0.11.91.4'
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+repositories {
+    mavenCentral()
 }

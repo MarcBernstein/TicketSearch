@@ -9,7 +9,7 @@ import retrofit.RetrofitError;
 
 /**
  * Tests the remote connection to the StubHub API, and that we get a valid, parsed response back.
- */w
+ */
 public class StubHubTest extends AndroidTestCase {
 
   @LargeTest
