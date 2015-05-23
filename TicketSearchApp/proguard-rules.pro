@@ -10,6 +10,11 @@
 -keepattributes *Annotation*
 -keepattributes SourceFile,LineNumberTable,Signature,Exceptions
 
+-dontwarn java.lang.invoke.*
+
+-dontwarn org.assertj.core.**
+-keep class rx.** { *; }
+
 ## GSON 2.2.4 specific rules ##
 
 # Gson uses generic type information stored in a class file when working with fields. Proguard
@@ -42,6 +47,8 @@
 -dontwarn org.joda.time.**
 -keep class org.joda.time.** { *; }
 -keep interface org.joda.time.** { *; }
+
+## Retrofit
 
 -keep class com.squareup.okhttp.** { *; }
 -keep interface com.squareup.okhttp.** { *; }

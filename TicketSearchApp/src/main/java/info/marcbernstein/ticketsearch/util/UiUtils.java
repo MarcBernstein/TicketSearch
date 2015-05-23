@@ -10,7 +10,7 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 import info.marcbernstein.ticketsearch.R;
-import info.marcbernstein.ticketsearch.data.stubhub.model.Event;
+import info.marcbernstein.ticketsearch.data.stubhub.model.StubHubEvent;
 
 /**
  * Util class for various UI related functions.
@@ -42,10 +42,10 @@ public final class UiUtils {
   /**
    * Returns a transformed formatted date string from the event.
    *
-   * @param event the {@link info.marcbernstein.ticketsearch.data.stubhub.model.Event} to get the date from
+   * @param event the {@link StubHubEvent} to get the date from
    * @return a transformed formatted date string
    */
-  public static String getDateTimeString(Event event) {
+  public static String getDateTimeString(StubHubEvent event) {
     Preconditions.checkNotNull(event, "Event cannot be null.");
 
     DateTime dateTime = STUB_HUB_DATE_TIME_FORMAT.parseDateTime(event.getEventDateAsFormattedString());
@@ -55,10 +55,10 @@ public final class UiUtils {
   /**
    * Returns a transformed date from the event as seconds since epoch.
    *
-   * @param event the {@link info.marcbernstein.ticketsearch.data.stubhub.model.Event} to get the date from
+   * @param event the {@link StubHubEvent} to get the date from
    * @return a transformed date as seconds since epoch
    */
-  public static long getDateTimeAsEpoch(Event event) {
+  public static long getDateTimeAsEpoch(StubHubEvent event) {
     Preconditions.checkNotNull(event, "Event cannot be null.");
 
     DateTime dateTime = STUB_HUB_DATE_TIME_FORMAT.parseDateTime(event.getEventDateAsFormattedString());

@@ -19,8 +19,8 @@ import java.util.Map;
 import info.marcbernstein.ticketsearch.R;
 import info.marcbernstein.ticketsearch.data.geojson.model.Feature;
 import info.marcbernstein.ticketsearch.data.stubhub.StubHubClient;
-import info.marcbernstein.ticketsearch.data.stubhub.model.Event;
-import info.marcbernstein.ticketsearch.data.stubhub.model.StubHubResponse;
+import info.marcbernstein.ticketsearch.data.stubhub.model.StubHubEvent;
+import info.marcbernstein.ticketsearch.data.stubhub.model.StubHubResponseContainer;
 import info.marcbernstein.ticketsearch.util.UiUtils;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -37,7 +37,7 @@ public class TeamInfoWindowAdapter implements GoogleMap.InfoWindowAdapter, Googl
 
   private final Map<Marker, Feature> mMapMarkers;
 
-  private final Map<Feature, StubHubResponse> mResponseMap = new HashMap<>();
+  private final Map<Feature, StubHubResponseContainer> mResponseMap = new HashMap<>();
 
   public TeamInfoWindowAdapter(Context context, Map<Marker, Feature> mapMarkers) {
     mContext = context;
@@ -63,11 +63,11 @@ public class TeamInfoWindowAdapter implements GoogleMap.InfoWindowAdapter, Googl
     // our fetched ticket info, we need to call showInfoWindow on the Marker again. So here we either use an already
     // fetched response or kick off a new fetch.
     View fetchTicketInfoContainer = view.findViewById(R.id.fetching_ticket_info_container);
-    StubHubResponse stubHubResponse = mResponseMap.get(team);
+    StubHubResponseContainer stubHubResponse = mResponseMap.get(team);
     if (stubHubResponse != null) {
       fetchTicketInfoContainer.setVisibility(View.GONE);
 
-      Event nextEvent = stubHubResponse.getNextEvent();
+      StubHubEvent nextEvent = stubHubResponse.getNextEvent();
       if (nextEvent != null) {
         bindEventDataToView(nextEvent, view.findViewById(R.id.ticket_info_container));
       } else {
@@ -100,7 +100,7 @@ public class TeamInfoWindowAdapter implements GoogleMap.InfoWindowAdapter, Googl
    * @param event               the event to get the data from
    * @param ticketInfoContainer the container view that holds the sub-views
    */
-  private void bindEventDataToView(Event event, View ticketInfoContainer) {
+  private void bindEventDataToView(StubHubEvent event, View ticketInfoContainer) {
     if (event == null) {
       Log.w(TAG, "No future event was returned from the StubHub API call.");
       return;
@@ -154,9 +154,9 @@ public class TeamInfoWindowAdapter implements GoogleMap.InfoWindowAdapter, Googl
     StubHubClient
         .searchEventsRx(mContext.getString(R.string.stubhub_query, teamName), team)
         .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(new Subscriber<StubHubResponse>() {
+        .subscribe(new Subscriber<StubHubResponseContainer>() {
           @Override
-          public void onNext(StubHubResponse stubHubResponse) {
+          public void onNext(StubHubResponseContainer stubHubResponse) {
             // Put the response in the mapping and call show info window again. This team the cached
             // response will be retrieved from the map and used instead of calling to searchEvents
             // again. This is not really optimal but necessary given the limited access from the
@@ -174,7 +174,7 @@ public class TeamInfoWindowAdapter implements GoogleMap.InfoWindowAdapter, Googl
             // If the request failed, notify the user via a Toast message and store an empty response in the
             // mapping.
             Toast.makeText(mContext, R.string.error_fetching_ticket_info, Toast.LENGTH_LONG).show();
-            mResponseMap.put(team, StubHubResponse.createEmptyResponse());
+            mResponseMap.put(team, StubHubResponseContainer.createEmptyResponse());
             marker.showInfoWindow();
           }
 
@@ -195,8 +195,8 @@ public class TeamInfoWindowAdapter implements GoogleMap.InfoWindowAdapter, Googl
   @Override
   public void onInfoWindowClick(Marker marker) {
     Feature team = mMapMarkers.get(marker);
-    StubHubResponse stubHubResponse = mResponseMap.get(team);
-    Event nextEvent = stubHubResponse != null ? stubHubResponse.getNextEvent() : null;
+    StubHubResponseContainer stubHubResponse = mResponseMap.get(team);
+    StubHubEvent nextEvent = stubHubResponse != null ? stubHubResponse.getNextEvent() : null;
 
     // If there's no event (we show that message in the info window) don't do anything on click.
     if (nextEvent == null) {

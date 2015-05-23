@@ -1,9 +1,5 @@
 package info.marcbernstein.ticketsearch.data.stubhub;
 
-import android.os.Looper;
-
-import com.google.common.base.Preconditions;
-
 import org.joda.time.Instant;
 
 import java.util.Collections;
@@ -11,8 +7,8 @@ import java.util.List;
 
 import info.marcbernstein.ticketsearch.BuildConfig;
 import info.marcbernstein.ticketsearch.data.geojson.model.Feature;
-import info.marcbernstein.ticketsearch.data.stubhub.model.Event;
-import info.marcbernstein.ticketsearch.data.stubhub.model.StubHubResponse;
+import info.marcbernstein.ticketsearch.data.stubhub.model.StubHubEvent;
+import info.marcbernstein.ticketsearch.data.stubhub.model.StubHubResponseContainer;
 import retrofit.Callback;
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
@@ -21,7 +17,6 @@ import retrofit.client.Response;
 import retrofit.http.GET;
 import retrofit.http.Query;
 import rx.Observable;
-import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -43,12 +38,8 @@ public final class StubHubClient {
   /**
    * Add our StubHub API app token to every request. *
    */
-  private static final RequestInterceptor sRequestInterceptor = new RequestInterceptor() {
-    @Override
-    public void intercept(RequestInterceptor.RequestFacade request) {
-      request.addHeader("Authorization", String.format("Bearer %s", APP_TOKEN));
-    }
-  };
+  private static final RequestInterceptor sRequestInterceptor =
+      request -> request.addHeader("Authorization", String.format("Bearer %s", APP_TOKEN));
   private static final RestAdapter sRestAdapter =
       new RestAdapter.Builder().setEndpoint(API_URL).setRequestInterceptor(sRequestInterceptor)
           // If this is a debug build, show the full Retrofit response. Otherwise no logging.
@@ -68,10 +59,10 @@ public final class StubHubClient {
    * @param team     The team being searched for
    * @param callback The callback to get the results from
    */
-  public static void searchEvents(String query, final Feature team, final Callback<StubHubResponse> callback) {
-    sService.searchEvents(query, new Callback<StubHubResponse>() {
+  public static void searchEvents(String query, final Feature team, final Callback<StubHubResponseContainer> callback) {
+    sService.searchEvents(query, new Callback<StubHubResponseContainer>() {
       @Override
-      public void success(StubHubResponse stubHubResponse, Response response) {
+      public void success(StubHubResponseContainer stubHubResponse, Response response) {
         // First, post process the response before handin it off to the caller
         postProcess(stubHubResponse, team);
 
@@ -97,27 +88,10 @@ public final class StubHubClient {
    * @param team  The team being searched for
    * @return The response from the API call
    */
-  public static StubHubResponse searchEvents(String query, Feature team) {
-    Preconditions
-        .checkState(!Looper.myLooper().equals(Looper.getMainLooper()), "This method cannot be run on the UI thread.");
-
-    StubHubResponse stubHubResponse = sService.searchEvents(query);
-
-    // First, post process the response before handin it off to the caller
-    postProcess(stubHubResponse, team);
-
-    return stubHubResponse;
-  }
-
-  public static Observable<StubHubResponse> searchEventsRx(String query, final Feature team) {
+  public static Observable<StubHubResponseContainer> searchEventsRx(String query, final Feature team) {
     return sService.searchEventsRx(query)
                    .subscribeOn(Schedulers.io())
-                   .doOnNext(new Action1<StubHubResponse>() {
-                     @Override
-                     public void call(StubHubResponse stubHubResponse) {
-                       postProcess(stubHubResponse, team);
-                     }
-                   });
+                   .doOnNext(stubHubResponse -> postProcess(stubHubResponse, team));
   }
 
   /**
@@ -126,7 +100,7 @@ public final class StubHubClient {
    * @param stubHubResponse The Response to get the Events from
    * @param team            The team that was searched for
    */
-  private static void postProcess(StubHubResponse stubHubResponse, Feature team) {
+  private static void postProcess(StubHubResponseContainer stubHubResponse, Feature team) {
     if (stubHubResponse == null || stubHubResponse.getEvents() == null || stubHubResponse.getEvents().isEmpty() ||
         team == null) {
       return;
@@ -136,19 +110,19 @@ public final class StubHubClient {
     stubHubResponse.setTeam(team);
     String stadiumName = team.getStadiumName();
 
-    List<Event> events = stubHubResponse.getEvents();
+    List<StubHubEvent> events = stubHubResponse.getEvents();
 
     // Add the UTC epoch time to the Event
-    for (Event event : events) {
+    for (StubHubEvent event : events) {
       event.postProcess();
     }
 
     // Sort by the comparator implemented in the Event class. Sorts by oldest to newest events by date/time.
     Collections.sort(events);
 
-    // Try to find the next home game to set it as the 'next event' memeber in the response
+    // Try to find the next home game to set it as the 'next event' member in the response
     Instant now = Instant.now();
-    for (Event event : events) {
+    for (StubHubEvent event : events) {
       // Next, we want to filter out any events in the past
       if (now.isAfter(event.getEventDateAsUtcSeconds())) {
         continue;
@@ -169,12 +143,12 @@ public final class StubHubClient {
 
   public interface StubHubService {
     @GET(LIST_CATALOG_PATH)
-    void searchEvents(@Query("q") String query, Callback<StubHubResponse> callback);
+    void searchEvents(@Query("q") String query, Callback<StubHubResponseContainer> callback);
 
     @GET(LIST_CATALOG_PATH)
-    StubHubResponse searchEvents(@Query("q") String query);
+    StubHubResponseContainer searchEvents(@Query("q") String query);
 
     @GET(LIST_CATALOG_PATH)
-    Observable<StubHubResponse> searchEventsRx(@Query("q") String query);
+    Observable<StubHubResponseContainer> searchEventsRx(@Query("q") String query);
   }
 }

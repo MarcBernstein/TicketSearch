@@ -2,30 +2,27 @@ package info.marcbernstein.ticketsearch.data.stubhub.model;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
+import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.List;
 
-import info.marcbernstein.ticketsearch.data.geojson.model.Feature;
-
 /**
- * Class used to represent the response from the StubHub API call. Used as a container to hold the reponse and
- * events, and to proxy function calls to the internal objects.
+ * Class used to represent a Response from the StubHub API. The response holds the events returned from the request.
  */
 @SuppressWarnings("unused") // Gson does in fact use these
 public class StubHubResponse implements Serializable {
 
-  private Response response;
+  @SuppressWarnings("FieldCanBeLocal") // Inspections get confused by Gson
+  int numFound = -1;
 
-  private Feature team;
+  @SerializedName("docs")
+  List<StubHubEvent> events;
+
+  StubHubEvent nextEvent;
 
   // Private ctor to disable direct instantiation.
   private StubHubResponse() {
-  }
-
-  public static StubHubResponse createEmptyResponse() {
-    return new StubHubResponse();
   }
 
   /**
@@ -33,8 +30,8 @@ public class StubHubResponse implements Serializable {
    *
    * @return the number of events found in the response
    */
-  public int getNumFound() {
-    return response != null ? response.numFound : 0;
+  int getNumFound() {
+    return numFound;
   }
 
   /**
@@ -42,46 +39,8 @@ public class StubHubResponse implements Serializable {
    *
    * @return the list of all events found in the response
    */
-  public List<Event> getEvents() {
-    return response != null ? response.events : Collections.<Event>emptyList();
-  }
-
-  /**
-   * Sets the event passed in as the next event.
-   *
-   * @param event the event to set as the next event
-   */
-  public void setNextEvent(Event event) {
-    if (response != null) {
-      response.nextEvent = event;
-    }
-  }
-
-  /**
-   * Returns the next event
-   *
-   * @return the next event
-   */
-  public Event getNextEvent() {
-    return response != null ? response.nextEvent : null;
-  }
-
-  /**
-   * Sets the team used for the StubHub API query
-   *
-   * @param team the team used for the StubHub API query
-   */
-  public void setTeam(Feature team) {
-    this.team = team;
-  }
-
-  /**
-   * Returns the team used in the StubHub API query
-   *
-   * @return the team used in the StubHub API query
-   */
-  public Feature getTeam() {
-    return team;
+  List<StubHubEvent> getEvents() {
+    return events;
   }
 
   @Override
@@ -95,17 +54,20 @@ public class StubHubResponse implements Serializable {
 
     StubHubResponse that = (StubHubResponse) o;
 
-    return Objects.equal(response, that.response) && Objects.equal(team, that.team);
+    return Objects.equal(numFound, that.numFound) &&
+        Objects.equal(events, that.events) &&
+        Objects.equal(nextEvent, that.nextEvent);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(response, team);
+    return Objects.hashCode(numFound, events, nextEvent);
   }
 
 
   @Override
   public String toString() {
-    return MoreObjects.toStringHelper(this).add("response", response).add("team", team).toString();
+    return MoreObjects.toStringHelper(this).add("numFound", numFound).add("events", events).add("nextEvent", nextEvent)
+                      .toString();
   }
 }

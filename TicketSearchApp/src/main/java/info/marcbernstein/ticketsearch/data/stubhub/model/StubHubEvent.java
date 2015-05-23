@@ -16,7 +16,7 @@ import info.marcbernstein.ticketsearch.util.UiUtils;
  * of the event.
  */
 @SuppressWarnings("unused") // Gson does in fact use these
-public class Event implements Serializable, Comparable<Event> {
+public class StubHubEvent implements Serializable, Comparable<StubHubEvent> {
 
   private static final String STUBHUB_BASE_URL = "http://www.stubhub.com/";
 
@@ -37,7 +37,7 @@ public class Event implements Serializable, Comparable<Event> {
   private long utcSeconds;
 
   // Private ctor to disable direct instantiation.
-  private Event() {
+  private StubHubEvent() {
   }
 
   /**
@@ -113,7 +113,7 @@ public class Event implements Serializable, Comparable<Event> {
   }
 
   @Override
-  public int compareTo(@NotNull Event other) {
+  public int compareTo(@NotNull StubHubEvent other) {
     return Long.valueOf(utcSeconds).compareTo(other.utcSeconds);
   }
 
@@ -127,7 +127,7 @@ public class Event implements Serializable, Comparable<Event> {
       return false;
     }
 
-    Event that = (Event) o;
+    StubHubEvent that = (StubHubEvent) o;
 
     return Objects.equal(event_id, that.event_id) &&
         Objects.equal(description, that.description) &&
