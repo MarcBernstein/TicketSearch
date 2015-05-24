@@ -14,7 +14,7 @@ public class StubHubTest extends AndroidTestCase {
   public void testStubHubClient() {
     String query = mContext.getString(R.string.stubhub_query, "San Diego Chargers");
 
-    StubHubResponseContainer stubHubResponse = StubHubClient.searchEventsRx(query, null).toBlocking().single();
+    StubHubResponseContainer stubHubResponse = StubHubClient.searchEvents(query, null).toBlocking().single();
     assertNotNull("Null StubHubResponse returned.", stubHubResponse);
     assertNotNull("Null events list returned.", stubHubResponse.getEvents());
     assertFalse("Empty events list returned.", stubHubResponse.getEvents().isEmpty());

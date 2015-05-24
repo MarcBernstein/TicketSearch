@@ -1,11 +1,10 @@
 package info.marcbernstein.ticketsearch.data.stubhub.model;
 
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
 
@@ -113,7 +112,7 @@ public class StubHubEvent implements Serializable, Comparable<StubHubEvent> {
   }
 
   @Override
-  public int compareTo(@NotNull StubHubEvent other) {
+  public int compareTo(@NonNull StubHubEvent other) {
     return Long.valueOf(utcSeconds).compareTo(other.utcSeconds);
   }
 

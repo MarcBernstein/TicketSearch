@@ -16,13 +16,13 @@ import com.google.android.gms.maps.model.Marker;
 import java.util.HashMap;
 import java.util.Map;
 
+import butterknife.ButterKnife;
 import info.marcbernstein.ticketsearch.R;
 import info.marcbernstein.ticketsearch.data.geojson.model.Feature;
 import info.marcbernstein.ticketsearch.data.stubhub.StubHubClient;
 import info.marcbernstein.ticketsearch.data.stubhub.model.StubHubEvent;
 import info.marcbernstein.ticketsearch.data.stubhub.model.StubHubResponseContainer;
 import info.marcbernstein.ticketsearch.util.UiUtils;
-import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 
 /**
@@ -62,17 +62,17 @@ public class TeamInfoWindowAdapter implements GoogleMap.InfoWindowAdapter, Googl
     // Google Maps info window gives very limited access to the underlying view. In order to refresh the view with
     // our fetched ticket info, we need to call showInfoWindow on the Marker again. So here we either use an already
     // fetched response or kick off a new fetch.
-    View fetchTicketInfoContainer = view.findViewById(R.id.fetching_ticket_info_container);
+    View fetchTicketInfoContainer = ButterKnife.findById(view, R.id.fetching_ticket_info_container);
     StubHubResponseContainer stubHubResponse = mResponseMap.get(team);
     if (stubHubResponse != null) {
       fetchTicketInfoContainer.setVisibility(View.GONE);
 
       StubHubEvent nextEvent = stubHubResponse.getNextEvent();
       if (nextEvent != null) {
-        bindEventDataToView(nextEvent, view.findViewById(R.id.ticket_info_container));
+        bindEventDataToView(nextEvent, ButterKnife.findById(view, R.id.ticket_info_container));
       } else {
         // Handle the situation where there are no more home games, or the API failed on us
-        view.findViewById(R.id.no_events_found_text_view).setVisibility(View.VISIBLE);
+        ButterKnife.findById(view, R.id.no_events_found_text_view).setVisibility(View.VISIBLE);
       }
     } else {
       startFetchTicketInfo(marker, team, fetchTicketInfoContainer);
@@ -88,9 +88,9 @@ public class TeamInfoWindowAdapter implements GoogleMap.InfoWindowAdapter, Googl
    * @param team the team to get the data from
    */
   private void bindDataToView(View view, Feature team) {
-    View teamNameView = view.findViewById(R.id.team_name_text_view);
-    if (teamNameView instanceof TextView) {
-      ((TextView) teamNameView).setText(team.getTeamName());
+    TextView teamNameView = ButterKnife.findById(view, R.id.team_name_text_view);
+    if (teamNameView != null) {
+      teamNameView.setText(team.getTeamName());
     }
   }
 
@@ -107,29 +107,27 @@ public class TeamInfoWindowAdapter implements GoogleMap.InfoWindowAdapter, Googl
     }
 
     // Shows number of currently available tickets for the event
-    View ticketsAvailableTextView = ticketInfoContainer.findViewById(R.id.tickets_available_text_view);
-    if (ticketsAvailableTextView instanceof TextView) {
-      ((TextView) ticketsAvailableTextView)
-          .setText(mContext.getString(R.string.tickets_available, event.getTotalTickets()));
+    TextView ticketsAvailableTextView = ButterKnife.findById(ticketInfoContainer, R.id.tickets_available_text_view);
+    if (ticketsAvailableTextView != null) {
+      ticketsAvailableTextView.setText(mContext.getString(R.string.tickets_available, event.getTotalTickets()));
     }
 
     // Shows the event's description - e.g., "San Diego Chargers at Buffalo Bills"
-    View eventDescriptionTextView = ticketInfoContainer.findViewById(R.id.event_description_text_view);
-    if (eventDescriptionTextView instanceof TextView) {
-      ((TextView) eventDescriptionTextView)
-          .setText(mContext.getString(R.string.event_description, event.getDescription()));
+    TextView eventDescriptionTextView = ButterKnife.findById(ticketInfoContainer, R.id.event_description_text_view);
+    if (eventDescriptionTextView != null) {
+      eventDescriptionTextView.setText(mContext.getString(R.string.event_description, event.getDescription()));
     }
 
     // Shows the event's date formatted nicely in device's timezone - e.g., "Sep 21, 2014 1:00PM"
-    View eventDateTextView = ticketInfoContainer.findViewById(R.id.event_date_text_view);
-    if (eventDateTextView instanceof TextView) {
-      ((TextView) eventDateTextView).setText(mContext.getString(R.string.event_date, UiUtils.getDateTimeString(event)));
+    TextView eventDateTextView = ButterKnife.findById(ticketInfoContainer, R.id.event_date_text_view);
+    if (eventDateTextView != null) {
+      eventDateTextView.setText(mContext.getString(R.string.event_date, UiUtils.getDateTimeString(event)));
     }
 
     // Show's the event's venue name - e.g., "Ralph Wilson Stadium"
-    View venueNameTextView = ticketInfoContainer.findViewById(R.id.venue_name_text_view);
-    if (venueNameTextView instanceof TextView) {
-      ((TextView) venueNameTextView).setText(mContext.getString(R.string.event_venue, event.getVenueName()));
+    TextView venueNameTextView =ButterKnife.findById(ticketInfoContainer, R.id.venue_name_text_view);
+    if (venueNameTextView != null) {
+      venueNameTextView.setText(mContext.getString(R.string.event_venue, event.getVenueName()));
     }
 
     // Finally, set the previously gone ViewGroup to be visible
@@ -143,50 +141,31 @@ public class TeamInfoWindowAdapter implements GoogleMap.InfoWindowAdapter, Googl
    * @param team                     the team to run the query upon
    * @param fetchTicketInfoContainer the ViewGroup to hide once the request is complete
    */
-  private void startFetchTicketInfo(final Marker marker, final Feature team, final View fetchTicketInfoContainer) {
-    String teamName = team.getTeamName();
-
-    // StubHub API evidently needs to have any . chars removed before making the search event request. Le sigh...
-    if (teamName != null && teamName.contains(".")) {
-      teamName = teamName.replace(".", "");
-    }
-
+  private void startFetchTicketInfo(Marker marker, Feature team, View fetchTicketInfoContainer) {
     StubHubClient
-        .searchEventsRx(mContext.getString(R.string.stubhub_query, teamName), team)
+        .searchEvents(team)
         .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(new Subscriber<StubHubResponseContainer>() {
-          @Override
-          public void onNext(StubHubResponseContainer stubHubResponse) {
-            // Put the response in the mapping and call show info window again. This team the cached
-            // response will be retrieved from the map and used instead of calling to searchEvents
-            // again. This is not really optimal but necessary given the limited access from the
-            // Google Maps API to refresh the info window.
-            mResponseMap.put(team, stubHubResponse);
-            marker.showInfoWindow();
-          }
+        .subscribe(
+            stubHubResponseContainer -> {
+              // Put the response in the mapping and call show info window again. This team the cached
+              // response will be retrieved from the map and used instead of calling to searchEvents
+              // again. This is not really optimal but necessary given the limited access from the
+              // Google Maps API to refresh the info window.
+              mResponseMap.put(team, stubHubResponseContainer);
+              marker.showInfoWindow();
+            },
+            throwable -> {
+              Log.e(TAG, "Error: ", throwable);
 
-          @Override
-          public void onError(Throwable e) {
-            Log.e(TAG, "Error: ", e);
+              fetchTicketInfoContainer.setVisibility(View.GONE);
 
-            hideFetchingTicketsContainer();
+              // If the request failed, notify the user via a Toast message and store an empty response in the
+              // mapping.
+              Toast.makeText(mContext, R.string.error_fetching_ticket_info, Toast.LENGTH_LONG).show();
+              mResponseMap.put(team, StubHubResponseContainer.createEmptyResponse());
+              marker.showInfoWindow();
+            });
 
-            // If the request failed, notify the user via a Toast message and store an empty response in the
-            // mapping.
-            Toast.makeText(mContext, R.string.error_fetching_ticket_info, Toast.LENGTH_LONG).show();
-            mResponseMap.put(team, StubHubResponseContainer.createEmptyResponse());
-            marker.showInfoWindow();
-          }
-
-          @Override
-          public void onCompleted() {
-            // Nothing
-          }
-
-          private void hideFetchingTicketsContainer() {
-            fetchTicketInfoContainer.setVisibility(View.GONE);
-          }
-        });
   }
 
 

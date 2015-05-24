@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 
 import info.marcbernstein.ticketsearch.R;
@@ -17,13 +18,13 @@ public class FirstLaunchDialogFragment extends DialogFragment {
 
   public static final String TAG = FirstLaunchDialogFragment.class.getSimpleName();
 
+  public FirstLaunchDialogFragment() {}
+
   public static DialogFragment newInstance() {
     return new FirstLaunchDialogFragment();
   }
 
-  public FirstLaunchDialogFragment() {
-  }
-
+  @NonNull
   @SuppressLint("InflateParams") // No root view to be the parent
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {

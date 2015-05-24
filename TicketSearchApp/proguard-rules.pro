@@ -10,9 +10,10 @@
 -keepattributes *Annotation*
 -keepattributes SourceFile,LineNumberTable,Signature,Exceptions
 
--dontwarn java.lang.invoke.*
+-keep class info.marcbernstein.** { *; }
+-keep interface info.marcbernstein.** { *; }
 
--dontwarn org.assertj.core.**
+## RxJava
 -keep class rx.** { *; }
 
 ## GSON 2.2.4 specific rules ##
@@ -101,6 +102,19 @@
 }
 -keep class rx.schedulers.Schedulers {
     public static ** test();
+}
+
+## ButterKnife
+-keep class butterknife.** { *; }
+-dontwarn butterknife.internal.**
+-keep class **$$ViewInjector { *; }
+
+-keepclasseswithmembernames class * {
+    @butterknife.* <fields>;
+}
+
+-keepclasseswithmembernames class * {
+    @butterknife.* <methods>;
 }
 
 ## Google Play Services 4.3.23 specific rules ##

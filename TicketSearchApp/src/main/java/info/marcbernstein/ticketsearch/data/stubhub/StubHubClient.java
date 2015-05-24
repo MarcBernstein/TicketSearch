@@ -6,18 +6,16 @@ import java.util.Collections;
 import java.util.List;
 
 import info.marcbernstein.ticketsearch.BuildConfig;
+import info.marcbernstein.ticketsearch.R;
+import info.marcbernstein.ticketsearch.TicketSearchApp;
 import info.marcbernstein.ticketsearch.data.geojson.model.Feature;
 import info.marcbernstein.ticketsearch.data.stubhub.model.StubHubEvent;
 import info.marcbernstein.ticketsearch.data.stubhub.model.StubHubResponseContainer;
-import retrofit.Callback;
-import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
-import retrofit.http.GET;
-import retrofit.http.Query;
 import rx.Observable;
 import rx.schedulers.Schedulers;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Class used to initiate requests and receive responses from the StubHub API.
@@ -32,66 +30,39 @@ public final class StubHubClient {
    */
   private static final String APP_TOKEN = "ggmgN2D2lglFKwkYwCRZM7CSSHca";
 
-  // Path and constant param portion of the StubHIB API call to the events listing catalog
-  private static final String LIST_CATALOG_PATH =
-      "/listingCatalog/select?wt=json&fl=event_id,description,event_date_time_local,venue_name,totalTickets,urlpath";
   /**
    * Add our StubHub API app token to every request. *
    */
-  private static final RequestInterceptor sRequestInterceptor =
-      request -> request.addHeader("Authorization", String.format("Bearer %s", APP_TOKEN));
   private static final RestAdapter sRestAdapter =
-      new RestAdapter.Builder().setEndpoint(API_URL).setRequestInterceptor(sRequestInterceptor)
-          // If this is a debug build, show the full Retrofit response. Otherwise no logging.
+      new RestAdapter.Builder()
+          .setEndpoint(API_URL)
+          .setRequestInterceptor(request -> request.addHeader("Authorization", String.format("Bearer %s", APP_TOKEN)))
+              // If this is a debug build, show the full Retrofit response. Otherwise no logging.
           .setLogLevel(BuildConfig.DEBUG ? RestAdapter.LogLevel.FULL : RestAdapter.LogLevel.NONE).build();
   private static final StubHubService sService = sRestAdapter.create(StubHubService.class);
 
   // Private ctor to disable direct instantiation.
-  private StubHubClient() {
-  }
+  private StubHubClient() {}
 
   /**
    * Query (asynchronously) the StubHub API to search for events matching the query. See <a href="http://stubhubapi
    * .stubhub.com/index .php/Main_Page#How-to_Use_StubHub.E2.80.99s_Listing_Catalog_Service">How-to Use StubHub’s
    * Listing Catalog Service</a> for more info.
    *
-   * @param query    The query to pass to the listingCatalog API
-   * @param team     The team being searched for
-   * @param callback The callback to get the results from
+   * @param team The team being searched for
    */
-  public static void searchEvents(String query, final Feature team, final Callback<StubHubResponseContainer> callback) {
-    sService.searchEvents(query, new Callback<StubHubResponseContainer>() {
-      @Override
-      public void success(StubHubResponseContainer stubHubResponse, Response response) {
-        // First, post process the response before handin it off to the caller
-        postProcess(stubHubResponse, team);
+  public static Observable<StubHubResponseContainer> searchEvents(Feature team) {
+    checkNotNull(team);
 
-        if (callback != null) {
-          callback.success(stubHubResponse, response);
-        }
-      }
-
-      @Override
-      public void failure(RetrofitError error) {
-        if (callback != null) {
-          callback.failure(error);
-        }
-      }
-    });
-  }
-
-  /**
-   * Sync version of {@link #searchEvents(String, Feature, retrofit.Callback)}. Must not be called on the main (UI)
-   * thread.
-   *
-   * @param query The query to pass to the listingCatalog API
-   * @param team  The team being searched for
-   * @return The response from the API call
-   */
-  public static Observable<StubHubResponseContainer> searchEventsRx(String query, final Feature team) {
-    return sService.searchEventsRx(query)
-                   .subscribeOn(Schedulers.io())
-                   .doOnNext(stubHubResponse -> postProcess(stubHubResponse, team));
+    return Observable
+        .just(team)
+        .map(Feature::getTeamName)
+            // StubHub API needs to have any . chars removed before making the search event request.
+        .map(teamName -> teamName.replace(".", ""))
+        .map(teamName -> TicketSearchApp.getInstance().getString(R.string.stubhub_query, teamName))
+        .flatMap(sService::searchEvents)
+        .doOnNext(stubHubResponse -> postProcess(stubHubResponse, team))
+        .subscribeOn(Schedulers.io());
   }
 
   /**
@@ -139,16 +110,5 @@ public final class StubHubClient {
       stubHubResponse.setNextEvent(event);
       break;
     }
-  }
-
-  public interface StubHubService {
-    @GET(LIST_CATALOG_PATH)
-    void searchEvents(@Query("q") String query, Callback<StubHubResponseContainer> callback);
-
-    @GET(LIST_CATALOG_PATH)
-    StubHubResponseContainer searchEvents(@Query("q") String query);
-
-    @GET(LIST_CATALOG_PATH)
-    Observable<StubHubResponseContainer> searchEventsRx(@Query("q") String query);
   }
 }
